@@ -1,0 +1,10 @@
+supergraph:
+  introspection: true
+
+cors:
+  allow_any_origin: true
+
+sandbox:
+  enabled: true
+homepage:
+  enabled: false

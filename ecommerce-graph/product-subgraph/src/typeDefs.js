@@ -1,0 +1,112 @@
+export const typeDefs = `#graphql
+type Query {
+    topProducts(category: Category): [Product!]!
+    product(id: ID!): Product
+    search(query: String!): [Product!]!
+    products(category: Category!, sortBy: String, order: Order, limit: Int, skip: Int): ProductsResult!
+    cart: [CartItem!]!
+    categories: [CategoryInfo!]!
+}
+
+type CategoryInfo {
+    name: String!
+    slug: Category!
+    image: String!
+}
+
+type Mutation {
+    addToCart(productId: ID!, quantity: Int!): CartItem!
+    updateCartItemQuantity(id: ID!, quantity: Int!): CartItem
+}
+
+type CartItem {
+    id: ID!
+    product: Product!
+    quantity: Int!
+}
+
+type ProductsResult {
+    results: [Product!]!
+    total: Int!
+    skip: Int!
+    limit: Int!
+}
+
+enum Order {
+    asc
+    desc
+}
+
+enum Category {
+    beauty
+    fragrances
+    furniture
+    groceries
+    home_decoration
+    kitchen_accessories
+    laptops
+    mens_shirts
+    mens_shoes
+    mens_watches
+    mobile_accessories
+    motorcycle
+    skin_care
+    smartphones
+    sports_accessories
+    sunglasses
+    tablets
+    tops
+    vehicle
+    womens_bags
+    womens_dresses
+    womens_jewellery
+    womens_shoes
+    womens_watches
+}
+
+type Product {
+    id: ID!
+    title: String!
+    description: String!
+    category: Category!
+    price: Float!
+    discountPercentage: Float!
+    rating: Float!
+    stock: Int!
+    tags: [String!]!
+    brand: String
+    sku: String!
+    weight: Float!
+    dimensions: Dimensions!
+    warrantyInformation: String!
+    shippingInformation: String!
+    availabilityStatus: String!
+    reviews: [Review!]!
+    returnPolicy: String!
+    minimumOrderQuantity: Int!
+    meta: ProductMeta!
+    images: [String!]!
+    thumbnail: String!
+}
+
+type Dimensions {
+    width: Float!
+    height: Float!
+    depth: Float!
+}
+
+type Review {
+    rating: Int!
+    comment: String!
+    date: String!
+    reviewerName: String!
+    reviewerEmail: String!
+}
+
+type ProductMeta {
+    createdAt: String!
+    updatedAt: String!
+    barcode: String!
+    qrCode: String!
+}
+`;

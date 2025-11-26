@@ -1,0 +1,13 @@
+schema:
+  source: local
+  path: schema.graphql
+introspection:
+  introspect:
+    enabled: true
+  execute:
+    enabled: true
+transport:
+  type: streamable_http
+  stateful_mode: false
+overrides:
+  mutation_mode: "all"
