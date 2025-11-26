@@ -14,6 +14,8 @@ cd ../..
 echo "Installing chokidar globally..."
 npm i chokidar -g
 
+echo "\n"
+echo "\n"
 echo "You're all installed and ready to go! 🚀"
 echo "\n"
 echo "To get started, do all the following in separate terminals:"
