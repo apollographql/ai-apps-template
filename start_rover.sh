@@ -1,1 +1,0 @@
-rover dev --supergraph-config ./connectors-graph/supergraph.yaml --router-config ./connectors-graph/router-config.yaml
