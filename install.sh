@@ -1,5 +1,5 @@
 echo "Downloading Apollo MCP Server..."
-curl -sSL https://mcp.apollo.dev/download/nix/latest | sh
+curl -sSL https://mcp.apollo.dev/download/nix/v1.3.0-experimental.0 | sh
 
 echo "Installing npm packages..."
 cd ecommerce-graph/product-subgraph
