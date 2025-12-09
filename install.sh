@@ -12,7 +12,7 @@ npm install
 cd ../..
 
 echo "Installing chokidar globally..."
-npm i chokidar -g
+npm i chokidar-cli -g
 
 echo "\n"
 echo "\n"

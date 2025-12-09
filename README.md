@@ -12,10 +12,10 @@ First, create a copy of this repo using a scaffolding tool like [tiged](https://
 npx tiged apollographql/ai-apps-template my-awesome-app
 ```
 
-Then run the install script to setup your repo:
+`cd` into the newly created project directory and then run the install script to setup your repo:
 
 ```sh
-./install
+./install.sh
 ```
 
 You're now ready to run your app!
