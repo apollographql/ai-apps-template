@@ -5,7 +5,7 @@ echo "Installing npm packages..."
 cd ecommerce-graph
 npm install
 
-cd ../..
+cd ../
 
 cd dev/the-store
 npm install
