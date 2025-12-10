@@ -1,5 +1,6 @@
 import { gql } from "@apollo/client";
 import { useMutation, useQuery } from "@apollo/client/react";
+import { useRef } from "react";
 import { Link } from "react-router";
 
 const UPDATE_CART_ITEM_QUANTITY = gql`
@@ -52,32 +53,43 @@ function Cart() {
   const { loading, error, data } = useQuery<{ cart: CartItem[] }>(GET_CART, {
     fetchPolicy: "network-only",
   });
+  const removalIdRef = useRef<string | null>(null);
   const [updateQuantity] = useMutation<UpdateCartItemQuantityResponse>(UPDATE_CART_ITEM_QUANTITY, {
     update: (cache, { data: resultData }) => {
-      if (!resultData?.updateCartItemQuantity || resultData.updateCartItemQuantity === null) return;
-
-      cache.modify({
-        id: resultData.updateCartItemQuantity.id,
-        fields: {
-          quantity: () => resultData.updateCartItemQuantity?.quantity ?? 0,
-        },
-      });
+      // the second part of this shouldn't ever happen but I have it here to be safe
+      if (resultData?.updateCartItemQuantity === null || resultData?.updateCartItemQuantity?.quantity === 0) {
+        // This doesn't work for some reason or another. I tried storing the id in a ref so we could have access to it when the result is null
+        // but that seems to fail? Wish we had a way to debug here
+        cache.evict({
+          id: removalIdRef.current ?? undefined,
+        });
+        removalIdRef.current = null;
+      } else if (resultData?.updateCartItemQuantity !== undefined) {
+        cache.modify({
+          id: resultData.updateCartItemQuantity.id,
+          fields: {
+            quantity: () => resultData.updateCartItemQuantity?.quantity ?? 0,
+          },
+        }); 
+      }    
     }
   });
 
   const handleQuantityChange = (itemId: string, currentQuantity: number, delta: number) => {
     const newQuantity = currentQuantity + delta;
+    removalIdRef.current = itemId;
     updateQuantity({
       variables: {
         cartItemId: itemId,
         quantity: newQuantity,
       },
       optimisticResponse: {
-        updateCartItemQuantity: {
+        // this isn't technically how this works but it at least lets the number decrease to 0 instead of freezing at 1
+        updateCartItemQuantity: newQuantity >= 0 ? { 
           __typename: "CartItem",
           id: itemId,
           quantity: newQuantity,
-        },
+        } : null,
       },
     });
   };
