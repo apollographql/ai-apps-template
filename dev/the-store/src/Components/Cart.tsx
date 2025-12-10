@@ -53,7 +53,16 @@ function Cart() {
     fetchPolicy: "network-only",
   });
   const [updateQuantity] = useMutation<UpdateCartItemQuantityResponse>(UPDATE_CART_ITEM_QUANTITY, {
-    refetchQueries: ["CartQuery"],
+    update: (cache, { data: resultData }) => {
+      if (!resultData?.updateCartItemQuantity || resultData.updateCartItemQuantity === null) return;
+
+      cache.modify({
+        id: resultData.updateCartItemQuantity.id,
+        fields: {
+          quantity: () => resultData.updateCartItemQuantity?.quantity ?? 0,
+        },
+      });
+    }
   });
 
   const handleQuantityChange = (itemId: string, currentQuantity: number, delta: number) => {
@@ -62,6 +71,13 @@ function Cart() {
       variables: {
         cartItemId: itemId,
         quantity: newQuantity,
+      },
+      optimisticResponse: {
+        updateCartItemQuantity: {
+          __typename: "CartItem",
+          id: itemId,
+          quantity: newQuantity,
+        },
       },
     });
   };
