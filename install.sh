@@ -1,3 +1,11 @@
+if command -v rover &> /dev/null; then
+    echo "Rover CLI is already installed ✓"
+else
+    echo "Rover CLI not found. Installing..."
+    curl -sSL https://rover.apollo.dev/nix/latest | sh
+    echo "Rover CLI installed successfully ✓"
+fi
+
 echo "Downloading Apollo MCP Server..."
 curl -sSL https://mcp.apollo.dev/download/nix/v1.3.0-experimental.0 | sh
 

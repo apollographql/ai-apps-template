@@ -1,1 +1,0 @@
-rover graph introspect http://localhost:4000 > schema.graphql
