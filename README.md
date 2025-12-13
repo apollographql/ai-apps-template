@@ -28,6 +28,8 @@ To run the demo, do all the following in separate terminals:
 2. `cd` into the `dev/the-store` folder and start it with `npm run dev:e2e`
 3. From the root of this project, run `./start_mcp.sh` to start up the mcp server
 
+To view the app locally in an emulator, run `npm run dev` instead of `npm run dev:e2e`.
+
 To access your running dev server from a provider (E.g. ChatGPT), you will likely need a tool like [ngrok](https://ngrok.com/) to create a tunnel to your locally running MCP server (E.g. `ngrok http 8000`).
 
 ## Accessing the App from ChatGPT

@@ -140,3 +140,6 @@ vite.config.ts.timestamp-*
 
 # apps folder (built artifacts)
 /apps
+
+# MCP Server Binary
+apollo-mcp-server

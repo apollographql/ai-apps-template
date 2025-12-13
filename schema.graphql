@@ -6,8 +6,14 @@ type Query {
   topProducts(category: Category): [Product!]!
   product(id: ID!): Product
   search(query: String!): [Product!]!
-  products(category: Category!, sortBy: String, order: Order, limit: Int, skip: Int): [Product!]!
+  products(category: Category!, sortBy: String, order: Order, limit: Int, skip: Int): ProductsResult!
   cart: [CartItem!]!
+  categories: [CategoryInfo!]!
+}
+type CategoryInfo {
+  name: String!
+  slug: Category!
+  image: String!
 }
 type Mutation {
   addToCart(productId: ID!, quantity: Int!): CartItem!
@@ -17,6 +23,12 @@ type CartItem {
   id: ID!
   product: Product!
   quantity: Int!
+}
+type ProductsResult {
+  results: [Product!]!
+  total: Int!
+  skip: Int!
+  limit: Int!
 }
 type Product {
   id: ID!
