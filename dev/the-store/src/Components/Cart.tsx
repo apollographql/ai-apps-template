@@ -5,7 +5,7 @@ import { Link } from "react-router";
 const UPDATE_CART_ITEM_QUANTITY = gql`
   mutation UpdateCartItemQuantity($cartItemId: ID!, $quantity: Int!)
   @tool(
-    name: "Update cart item quantity"
+    name: "Update-cart-item-quantity"
     description: "Updates the quantity of a cart item. Setting the quantity to 0 will remove the item from the cart."
   ) {
     updateCartItemQuantity(id: $cartItemId, quantity: $quantity) {
@@ -17,7 +17,7 @@ const UPDATE_CART_ITEM_QUANTITY = gql`
 
 const GET_CART = gql`
   query CartQuery
-  @tool(name: "View Cart", description: "Shows the items currently added to the user's shopping cart.") {
+  @tool(name: "View-Cart", description: "Shows the items currently added to the user's shopping cart.") {
     cart {
       id
       quantity

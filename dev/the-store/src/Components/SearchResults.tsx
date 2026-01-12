@@ -3,7 +3,8 @@ import { useQuery } from "@apollo/client/react";
 import { Link, useSearchParams } from "react-router";
 
 const SEARCH_QUERY = gql`
-  query SearchQuery($query: String!) @tool(name: "Search Products", description: "Searches for products based on a search query.") {
+  query SearchQuery($query: String!)
+  @tool(name: "Search-Products", description: "Searches for products based on a search query.") {
     search(query: $query) {
       id
       title
