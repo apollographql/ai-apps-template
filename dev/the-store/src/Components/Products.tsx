@@ -4,7 +4,11 @@ import { Link, useParams } from "react-router";
 import { useState } from "react";
 
 const PRODUCTS = gql`
-  query Products($category: Category!, $sortBy: String, $order: Order, $limit: Int, $skip: Int) @tool(name: "Browse Products", description: "Shows products in a specific category with sorting and pagination options.") {
+  query Products($category: Category!, $sortBy: String, $order: Order, $limit: Int, $skip: Int)
+  @tool(
+    name: "Browse-Products"
+    description: "Shows products in a specific category with sorting and pagination options."
+  ) {
     products(category: $category, sortBy: $sortBy, order: $order, limit: $limit, skip: $skip) {
       limit
       skip
@@ -88,7 +92,9 @@ function Products() {
           {loading ? (
             "Loading..."
           ) : (
-            <>Showing {data?.products.results.length || 0} of {data?.products.total || 0} products</>
+            <>
+              Showing {data?.products.results.length || 0} of {data?.products.total || 0} products
+            </>
           )}
         </p>
 
@@ -127,27 +133,25 @@ function Products() {
       </div>
 
       <div className="flex flex-wrap gap-4 mb-8">
-        {loading ? (
-          Array.from({ length: ITEMS_PER_PAGE }).map((_, index) => (
-            <div key={index} className="border rounded-lg p-4 w-48 shadow-sm animate-pulse">
-              <div className="w-full h-32 bg-gray-300 rounded mb-2"></div>
-              <div className="h-6 bg-gray-300 rounded mb-2"></div>
-              <div className="h-4 bg-gray-300 rounded w-20 mb-1"></div>
-              <div className="h-5 bg-gray-300 rounded w-16"></div>
-            </div>
-          ))
-        ) : (
-          data?.products.results.map((product) => (
-            <Link key={product.id} to={`/product/${product.id}`} className="block">
-              <div className="border rounded-lg p-4 w-48 shadow-sm hover:shadow-md transition-shadow">
-                <img src={product.thumbnail} alt={product.title} className="w-full h-32 object-cover rounded mb-2" />
-                <h3 className="font-semibold text-lg mb-2">{product.title}</h3>
-                <p className="text-gray-600 mb-1">⭐ {product.rating}</p>
-                <p className="text-green-600 font-medium">${product.price.toFixed(2)}</p>
+        {loading
+          ? Array.from({ length: ITEMS_PER_PAGE }).map((_, index) => (
+              <div key={index} className="border rounded-lg p-4 w-48 shadow-sm animate-pulse">
+                <div className="w-full h-32 bg-gray-300 rounded mb-2"></div>
+                <div className="h-6 bg-gray-300 rounded mb-2"></div>
+                <div className="h-4 bg-gray-300 rounded w-20 mb-1"></div>
+                <div className="h-5 bg-gray-300 rounded w-16"></div>
               </div>
-            </Link>
-          ))
-        )}
+            ))
+          : data?.products.results.map((product) => (
+              <Link key={product.id} to={`/product/${product.id}`} className="block">
+                <div className="border rounded-lg p-4 w-48 shadow-sm hover:shadow-md transition-shadow">
+                  <img src={product.thumbnail} alt={product.title} className="w-full h-32 object-cover rounded mb-2" />
+                  <h3 className="font-semibold text-lg mb-2">{product.title}</h3>
+                  <p className="text-gray-600 mb-1">⭐ {product.rating}</p>
+                  <p className="text-green-600 font-medium">${product.price.toFixed(2)}</p>
+                </div>
+              </Link>
+            ))}
       </div>
 
       {totalPages > 1 && (
@@ -162,19 +166,13 @@ function Products() {
 
           <div className="flex items-center gap-1">
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
-              if (
-                page === 1 ||
-                page === totalPages ||
-                (page >= currentPage - 1 && page <= currentPage + 1)
-              ) {
+              if (page === 1 || page === totalPages || (page >= currentPage - 1 && page <= currentPage + 1)) {
                 return (
                   <button
                     key={page}
                     onClick={() => setCurrentPage(page)}
                     className={`px-3 py-1 border rounded ${
-                      page === currentPage
-                        ? "bg-purple-600 text-white"
-                        : "bg-white hover:bg-gray-100"
+                      page === currentPage ? "bg-purple-600 text-white" : "bg-white hover:bg-gray-100"
                     }`}
                   >
                     {page}

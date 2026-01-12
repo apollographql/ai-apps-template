@@ -4,7 +4,7 @@ import { useQuery } from "@apollo/client/react";
 import { Link } from "react-router";
 
 const TOP_PRODUCTS = gql`
-  query TopProducts @prefetch @tool(name: "Top Products", description: "Shows the currently highest rated products.") {
+  query TopProducts @prefetch @tool(name: "Top-Products", description: "Shows the currently highest rated products.") {
     topProducts {
       id
       title
