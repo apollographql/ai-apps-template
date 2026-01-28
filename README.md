@@ -35,3 +35,7 @@ To access your running dev server from a provider (E.g. ChatGPT), you will likel
 ## Accessing the App from ChatGPT
 
 Follow the instructions in the OpenAI docs to [Add your app to ChatGPT](https://developers.openai.com/apps-sdk/quickstart/#add-your-app-to-chatgpt). Note that this requires a Plus or higher plan.
+
+## Ensuring the correct tools are loaded
+
+When adding a URL to MCP Inspector or ChatGPT, add `/mcp?app=the-store` to the end of the URL.  E.g. `https://abc123.ngrok-free.app/mcp?app=the-store`
