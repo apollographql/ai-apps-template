@@ -1,0 +1,7 @@
+{
+  "extends": ["@apollo/client-ai-apps/tsconfig/openai", "./tsconfig.base.json"],
+  "compilerOptions": {
+    "types": ["@apollo/client-ai-apps/openai/globals"]
+  },
+  "include": ["src/**/*.openai.ts", "src/**/*.openai.tsx"]
+}
