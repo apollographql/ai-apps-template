@@ -1,6 +1,9 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import { ApplicationManifestPlugin, AbsoluteAssetImportsPlugin } from "@apollo/client-ai-apps/vite";
+import {
+  ApplicationManifestPlugin,
+  AbsoluteAssetImportsPlugin,
+} from "@apollo/client-ai-apps/vite";
 import { viteSingleFile } from "vite-plugin-singlefile";
 import tailwindcss from "@tailwindcss/vite";
 import { mcpInspector } from "@mcpjam/inspector/vite";
