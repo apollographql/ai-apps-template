@@ -5,7 +5,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev:mcp": "cross-env TARGET=mcp vite",
+    "dev:openai": "cross-env TARGET=openai vite",
     "dev:e2e": "vite build --watch",
     "build": "tsc -b && vite build",
     "build:staging": "tsc -b && vite build --mode staging",
