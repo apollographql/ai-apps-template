@@ -12,12 +12,26 @@ function App() {
   const navigate = useNavigate();
 
   useToolEffect("Top-Products", () => navigate("/home"), [navigate]);
-  useToolEffect("Get-Product", (toolInput) => navigate(`/product/${toolInput.id}`), [navigate]);
-  useToolEffect(["View-Cart", "Update-cart-item-quantity", "Add-to-Cart"], () => navigate("/cart"), [navigate]);
-  useToolEffect("Search-Products", (toolInput) => navigate(`/search?q=${encodeURIComponent(toolInput.query)}`), [
-    navigate,
-  ]);
-  useToolEffect("Browse-Products", (toolInput) => navigate(`/products/${toolInput.category}`), [navigate]);
+  useToolEffect(
+    "Get-Product",
+    (toolInput) => navigate(`/product/${toolInput.id}`),
+    [navigate]
+  );
+  useToolEffect(
+    ["View-Cart", "Update-cart-item-quantity", "Add-to-Cart"],
+    () => navigate("/cart"),
+    [navigate]
+  );
+  useToolEffect(
+    "Search-Products",
+    (toolInput) => navigate(`/search?q=${encodeURIComponent(toolInput.query)}`),
+    [navigate]
+  );
+  useToolEffect(
+    "Browse-Products",
+    (toolInput) => navigate(`/products/${toolInput.category}`),
+    [navigate]
+  );
 
   return (
     <div className="container mx-auto px-4 py-6">
