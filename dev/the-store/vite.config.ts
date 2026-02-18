@@ -1,4 +1,5 @@
 import { defineConfig } from "vite";
+import { fileURLToPath } from "node:url";
 import react from "@vitejs/plugin-react";
 import { apolloClientAiApps, devTarget } from "@apollo/client-ai-apps/vite";
 import { viteSingleFile } from "vite-plugin-singlefile";
@@ -16,6 +17,13 @@ export default defineConfig({
       process.argv.includes("--watch") ?
         { exclude: [".application-manifest.json"] }
       : undefined,
+  },
+  resolve: {
+    alias: {
+      "@/gql/types": fileURLToPath(
+        new URL("./src/gql/__generated__/types.ts", import.meta.url)
+      ),
+    },
   },
   plugins: [
     apolloClientAiApps({
