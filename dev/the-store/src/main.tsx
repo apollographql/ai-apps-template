@@ -1,8 +1,8 @@
 import { StrictMode } from "react";
+import { InMemoryCache } from "@apollo/client";
 import {
   ApolloClient,
   ApolloProvider,
-  InMemoryCache,
   ToolUseProvider,
   type ApplicationManifest,
 } from "@apollo/client-ai-apps";
