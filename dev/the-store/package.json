@@ -10,7 +10,8 @@
     "build": "tsc -b && vite build",
     "build:staging": "tsc -b && vite build --mode staging",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "format": "prettier --write src vite.config.ts"
   },
   "dependencies": {
     "@apollo/client": "^4.0.9",
