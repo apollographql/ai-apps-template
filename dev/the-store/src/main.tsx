@@ -4,7 +4,6 @@ import {
   ApolloClient,
   ApolloProvider,
   ToolUseProvider,
-  type ApplicationManifest,
 } from "@apollo/client-ai-apps";
 import { createRoot } from "react-dom/client";
 import "./index.css";
@@ -32,10 +31,7 @@ const cache = new InMemoryCache({
   },
 });
 
-const client = new ApolloClient({
-  cache,
-  manifest: manifest as ApplicationManifest,
-});
+const client = new ApolloClient({ cache, manifest });
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
