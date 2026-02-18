@@ -1,4 +1,4 @@
-import { useSendFollowUpMessage } from "@apollo/client-ai-apps";
+import { useApp } from "@apollo/client-ai-apps";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Link } from "react-router";
@@ -40,11 +40,11 @@ type Category = {
 };
 
 function App() {
+  const app = useApp();
   const { loading, error, data } = useQuery<{
     topProducts: Product[];
     categories: Category[];
   }>(TOP_PRODUCTS);
-  const sendPrompt = useSendFollowUpMessage();
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message}</p>;
@@ -54,9 +54,15 @@ function App() {
         <h1 className="text-2xl font-bold">Top Products</h1>
         <button
           onClick={async () => {
-            sendPrompt(
-              "Based on what you know about me, what products should I look at? Inspire me!"
-            );
+            app.sendMessage({
+              role: "user",
+              content: [
+                {
+                  type: "text",
+                  text: "Based on what you know about me, what products should I look at? Inspire me!",
+                },
+              ],
+            });
           }}
           className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
         >
