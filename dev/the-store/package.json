@@ -14,7 +14,7 @@
     "format": "prettier --write src vite.config.ts"
   },
   "dependencies": {
-    "@apollo/client": "^4.0.9",
+    "@apollo/client": "^4.1.4",
     "@apollo/client-ai-apps": "^0.3.2",
     "@graphql-tools/graphql-tag-pluck": "^8.3.23",
     "@tailwindcss/vite": "^4.1.17",
