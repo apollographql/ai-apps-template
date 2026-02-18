@@ -38,7 +38,7 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ApolloProvider client={client}>
       <MemoryRouter>
-        <ToolUseProvider appName={manifest.name}>
+        <ToolUseProvider>
           <App />
         </ToolUseProvider>
       </MemoryRouter>
