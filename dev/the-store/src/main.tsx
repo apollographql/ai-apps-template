@@ -26,6 +26,9 @@ const cache = new InMemoryCache({
         },
       },
     },
+    CategoryInfo: {
+      keyFields: ["slug"],
+    },
   },
 });
 
