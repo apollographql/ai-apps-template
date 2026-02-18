@@ -1,9 +1,14 @@
-import { gql } from "@apollo/client";
+import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Link, useParams } from "react-router";
 import { useState } from "react";
+import type {
+  Category,
+  ProductsQuery,
+  ProductsQueryVariables,
+} from "@/gql/types";
 
-const PRODUCTS = gql`
+const PRODUCTS: TypedDocumentNode<ProductsQuery, ProductsQueryVariables> = gql`
   query Products(
     $category: Category!
     $sortBy: String
@@ -42,40 +47,17 @@ const PRODUCTS = gql`
 
 type Order = "asc" | "desc";
 
-type Product = {
-  id: string;
-  title: string;
-  rating: number;
-  price: number;
-  thumbnail: string;
-};
-
-type CategoryInfo = {
-  name: string;
-  slug: string;
-};
-
-type ProductsResponse = {
-  products: {
-    limit: number;
-    skip: number;
-    total: number;
-    results: Product[];
-  };
-  categories: CategoryInfo[];
-};
-
 const ITEMS_PER_PAGE = 10;
 
 function Products() {
-  const { category } = useParams<{ category: string }>();
+  const { category } = useParams() as { category: Category };
   const [sortBy, setSortBy] = useState<string>("title");
   const [order, setOrder] = useState<Order>("asc");
   const [currentPage, setCurrentPage] = useState(1);
 
   const skip = (currentPage - 1) * ITEMS_PER_PAGE;
 
-  const { loading, error, data } = useQuery<ProductsResponse>(PRODUCTS, {
+  const { loading, error, data } = useQuery(PRODUCTS, {
     variables: {
       category,
       sortBy,

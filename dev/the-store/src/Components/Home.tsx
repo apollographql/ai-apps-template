@@ -1,9 +1,13 @@
 import { useApp } from "@apollo/client-ai-apps";
-import { gql } from "@apollo/client";
+import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Link } from "react-router";
+import type { TopProductsQuery, TopProductsQueryVariables } from "@/gql/types";
 
-const TOP_PRODUCTS = gql`
+const TOP_PRODUCTS: TypedDocumentNode<
+  TopProductsQuery,
+  TopProductsQueryVariables
+> = gql`
   query TopProducts
   @prefetch
   @tool(
@@ -25,29 +29,13 @@ const TOP_PRODUCTS = gql`
   }
 `;
 
-type Product = {
-  id: string;
-  title: string;
-  rating: number;
-  price: number;
-  thumbnail: string;
-};
-
-type Category = {
-  image: string;
-  name: string;
-  slug: string;
-};
-
 function App() {
   const app = useApp();
-  const { loading, error, data } = useQuery<{
-    topProducts: Product[];
-    categories: Category[];
-  }>(TOP_PRODUCTS);
+  const { loading, error, data } = useQuery(TOP_PRODUCTS);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message}</p>;
+
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
