@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 import { InMemoryCache } from "@apollo/client";
-import { ApolloClient } from "@apollo/client-ai-apps";
+import { ApolloClient, type ApplicationManifest } from "@apollo/client-ai-apps";
 import { ApolloProvider } from "@apollo/client-ai-apps/react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
@@ -27,7 +27,10 @@ const cache = new InMemoryCache({
   },
 });
 
-const client = new ApolloClient({ cache, manifest });
+const client = new ApolloClient({
+  cache,
+  manifest: manifest as ApplicationManifest,
+});
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
