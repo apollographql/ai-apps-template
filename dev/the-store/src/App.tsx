@@ -10,9 +10,9 @@ import { useToolInput, useToolName } from "@apollo/client-ai-apps/react";
 import { useState } from "react";
 
 function App() {
-  const [initialRoute] = useState(getInitialRoute);
   const toolName = useToolName();
   const toolInput = useToolInput();
+  const [initialRoute] = useState(getInitialRoute);
 
   function getInitialRoute() {
     switch (toolName) {
