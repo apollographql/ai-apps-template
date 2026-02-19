@@ -6,7 +6,7 @@ import Cart from "./Components/Cart";
 import SearchBar from "./Components/SearchBar";
 import SearchResults from "./Components/SearchResults";
 import { MemoryRouter, Route, Routes } from "react-router";
-import { useToolInput, useToolName } from "@apollo/client-ai-apps";
+import { useToolInput, useToolName } from "@apollo/client-ai-apps/react";
 import { useState } from "react";
 
 function App() {

@@ -1,4 +1,4 @@
-import { useApp } from "@apollo/client-ai-apps";
+import { useApp } from "@apollo/client-ai-apps/react";
 import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Link } from "react-router";

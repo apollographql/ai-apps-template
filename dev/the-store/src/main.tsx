@@ -1,10 +1,7 @@
 import { StrictMode } from "react";
 import { InMemoryCache } from "@apollo/client";
-import {
-  ApolloClient,
-  ApolloProvider,
-  ToolUseProvider,
-} from "@apollo/client-ai-apps";
+import { ApolloClient } from "@apollo/client-ai-apps";
+import { ApolloProvider } from "@apollo/client-ai-apps/react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
@@ -35,9 +32,7 @@ const client = new ApolloClient({ cache, manifest });
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ApolloProvider client={client}>
-      <ToolUseProvider>
-        <App />
-      </ToolUseProvider>
+      <App />
     </ApolloProvider>
   </StrictMode>
 );
