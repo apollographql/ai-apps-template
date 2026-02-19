@@ -5,45 +5,49 @@ import Products from "./Components/Products";
 import Cart from "./Components/Cart";
 import SearchBar from "./Components/SearchBar";
 import SearchResults from "./Components/SearchResults";
-import { Route, Routes, useNavigate } from "react-router";
-import { useToolEffect } from "@apollo/client-ai-apps";
+import { MemoryRouter, Route, Routes } from "react-router";
+import { useToolInput, useToolName } from "@apollo/client-ai-apps";
+import { useState } from "react";
 
 function App() {
-  const navigate = useNavigate();
+  const [initialRoute] = useState(getInitialRoute);
+  const toolName = useToolName();
+  const toolInput = useToolInput();
 
-  useToolEffect("Top-Products", () => navigate("/home"), [navigate]);
-  useToolEffect(
-    "Get-Product",
-    (toolInput) => navigate(`/product/${toolInput.id}`),
-    [navigate]
-  );
-  useToolEffect(
-    ["View-Cart", "Update-cart-item-quantity", "Add-to-Cart"],
-    () => navigate("/cart"),
-    [navigate]
-  );
-  useToolEffect(
-    "Search-Products",
-    (toolInput) => navigate(`/search?q=${encodeURIComponent(toolInput.query)}`),
-    [navigate]
-  );
-  useToolEffect(
-    "Browse-Products",
-    (toolInput) => navigate(`/products/${toolInput.category}`),
-    [navigate]
-  );
+  function getInitialRoute() {
+    switch (toolName) {
+      case "Top-Products":
+        return "/home";
+      case "Get-Product":
+        return `/product/${toolInput?.id}`;
+      case "View-Cart":
+      case "Update-cart-item-quantity":
+      case "Add-to-Cart":
+        return "/cart";
+      case "Search-Products":
+        return `/search?q=${encodeURIComponent(toolInput?.query as string)}`;
+      case "Browse-Products":
+        return `/products/${toolInput?.category}`;
+      default: {
+        console.warn(`Unable to match route for tool '${toolName}`);
+        return "/";
+      }
+    }
+  }
 
   return (
     <div className="container mx-auto px-4 py-6">
-      <SearchBar />
-      <Routes>
-        <Route index element={<div>Loading...</div>} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/product/:id" element={<ProductDetail />} />
-        <Route path="/products/:category" element={<Products />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/search" element={<SearchResults />} />
-      </Routes>
+      <MemoryRouter initialEntries={[initialRoute]}>
+        <SearchBar />
+        <Routes>
+          <Route index element={<div>Loading...</div>} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/products/:category" element={<Products />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/search" element={<SearchResults />} />
+        </Routes>
+      </MemoryRouter>
     </div>
   );
 }

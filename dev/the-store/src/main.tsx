@@ -9,7 +9,6 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
 import manifest from "../.application-manifest.json";
-import { MemoryRouter } from "react-router";
 
 const cache = new InMemoryCache({
   typePolicies: {
@@ -36,11 +35,9 @@ const client = new ApolloClient({ cache, manifest });
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ApolloProvider client={client}>
-      <MemoryRouter>
-        <ToolUseProvider>
-          <App />
-        </ToolUseProvider>
-      </MemoryRouter>
+      <ToolUseProvider>
+        <App />
+      </ToolUseProvider>
     </ApolloProvider>
   </StrictMode>
 );
