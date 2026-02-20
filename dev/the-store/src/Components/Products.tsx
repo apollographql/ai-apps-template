@@ -7,6 +7,7 @@ import type {
   ProductsQuery,
   ProductsQueryVariables,
 } from "@/gql/types";
+import { useToolInput } from "@apollo/client-ai-apps/react";
 
 const PRODUCTS: TypedDocumentNode<ProductsQuery, ProductsQueryVariables> = gql`
   query Products(
@@ -50,9 +51,14 @@ type Order = "asc" | "desc";
 const ITEMS_PER_PAGE = 10;
 
 function Products() {
+  const toolInput = useToolInput();
   const { category } = useParams() as { category: Category };
-  const [sortBy, setSortBy] = useState<string>("title");
-  const [order, setOrder] = useState<Order>("asc");
+  const [sortBy, setSortBy] = useState<string>(
+    (toolInput?.sortBy as string | undefined) ?? "title"
+  );
+  const [order, setOrder] = useState<Order>(
+    (toolInput?.order as Order | undefined) ?? "asc"
+  );
   const [currentPage, setCurrentPage] = useState(1);
 
   const skip = (currentPage - 1) * ITEMS_PER_PAGE;
