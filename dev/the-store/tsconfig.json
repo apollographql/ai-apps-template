@@ -2,8 +2,6 @@
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.mcp.json" },
-    { "path": "./tsconfig.openai.json" },
     { "path": "./tsconfig.node.json" }
   ]
 }

@@ -1,4 +1,0 @@
-{
-  "extends": ["@apollo/client-ai-apps/tsconfig/mcp", "./tsconfig.base.json"],
-  "include": ["src/**/*.mcp.ts", "src/**/*.mcp.tsx"]
-}
