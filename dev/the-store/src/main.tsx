@@ -1,4 +1,4 @@
-import { StrictMode } from "react";
+import { StrictMode, Suspense } from "react";
 import { InMemoryCache } from "@apollo/client";
 import { ApolloClient, type ApplicationManifest } from "@apollo/client-ai-apps";
 import { ApolloProvider } from "@apollo/client-ai-apps/react";
@@ -34,8 +34,10 @@ const client = new ApolloClient({
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ApolloProvider client={client}>
-      <App />
-    </ApolloProvider>
+    <Suspense fallback={<div>Loading...</div>}>
+      <ApolloProvider client={client}>
+        <App />
+      </ApolloProvider>
+    </Suspense>
   </StrictMode>
 );
