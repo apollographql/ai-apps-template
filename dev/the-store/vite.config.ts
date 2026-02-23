@@ -38,6 +38,7 @@ export default defineConfig({
         url: `http://localhost:8000/mcp?app=the-store&appTarget=${target}`,
       },
       defaultTab: "app-builder",
+      cspMode: "permissive",
     }),
     viteSingleFile(),
   ],
