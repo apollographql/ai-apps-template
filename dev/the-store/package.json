@@ -16,10 +16,10 @@
     "codegen": "graphql-codegen --config codegen.ts"
   },
   "dependencies": {
-    "@apollo/client": "^4.1.5",
+    "@apollo/client": "^4.1.6",
     "@apollo/client-ai-apps": "^0.5.1",
     "@graphql-tools/graphql-tag-pluck": "^8.3.23",
-    "@modelcontextprotocol/ext-apps": "^1.0.1",
+    "@modelcontextprotocol/ext-apps": "^1.1.0",
     "@tailwindcss/vite": "^4.1.17",
     "@vitejs/plugin-basic-ssl": "^2.1.0",
     "crypto-hash": "^4.0.0",
@@ -36,7 +36,7 @@
     "@graphql-codegen/cli": "^6.1.1",
     "@graphql-codegen/typescript": "^5.0.8",
     "@graphql-codegen/typescript-operations": "^5.0.8",
-    "@mcpjam/inspector": "^1.3.10",
+    "@mcpjam/inspector": "^2.0.2",
     "@types/node": "^24.6.0",
     "@types/react": "^19.1.16",
     "@types/react-dom": "^19.1.9",
