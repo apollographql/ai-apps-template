@@ -41,4 +41,4 @@ Follow the instructions in the OpenAI docs to [Add your app to ChatGPT](https://
 
 ## Ensuring the correct tools are loaded
 
-When adding a URL to MCP Inspector or ChatGPT, add `/mcp?app=the-store` to the end of the URL.  E.g. `https://abc123.ngrok-free.app/mcp?app=the-store`
+When adding a URL to MCP Inspector or ChatGPT, add `/mcp?app=the-store` to the end of the URL. E.g. `https://abc123.ngrok-free.app/mcp?app=the-store`
