@@ -7,7 +7,7 @@ else
 fi
 
 echo "Downloading Apollo MCP Server..."
-curl -sSL https://mcp.apollo.dev/download/nix/v1.8.0-experimental.1 | sh
+curl -sSL https://mcp.apollo.dev/download/nix/v1.8.0-experimental.2 | sh
 
 echo "Installing npm packages..."
 cd ecommerce-graph
