@@ -9,5 +9,8 @@ introspection:
 transport:
   type: streamable_http
   stateful_mode: false
+  # This is for development. In production, you probably want to remove this!
+  host_validation:
+    enabled: false
 overrides:
   mutation_mode: "all"
