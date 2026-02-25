@@ -36,7 +36,7 @@
     "@graphql-codegen/cli": "^6.1.1",
     "@graphql-codegen/typescript": "^5.0.8",
     "@graphql-codegen/typescript-operations": "^5.0.8",
-    "@mcpjam/inspector": "^2.0.2",
+    "@mcpjam/inspector": "^2.0.3",
     "@types/node": "^24.6.0",
     "@types/react": "^19.1.16",
     "@types/react-dom": "^19.1.9",
