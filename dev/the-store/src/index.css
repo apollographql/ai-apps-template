@@ -5,6 +5,8 @@
   --font-heading: Inter, sans-serif;
   --font-mono: "Fira Code", monospace;
 
+  --font-base: 1rem;
+
   --color-*: initial;
 
   --color-white: #ffffff;
@@ -84,6 +86,8 @@
   --color-purple-200: #c363ff;
   --color-purple-100: #f3e0ff;
 
+  --bg-base-input: var(--color-silver-100);
+  --bg-dark-input: var(--color-navy-450);
   --bg-base-primary: var(--color-silver-100);
   --bg-dark-primary: var(--color-black-100);
   --bg-base-secondary: var(--color-silver-300);
@@ -93,16 +97,26 @@
   --bg-dark-button-primary: var(--color-navy-200);
   --bg-base-button-primary-hover: var(--color-navy-500);
   --bg-dark-button-primary-hover: var(--color-navy-300);
+  --bg-base-button-secondary: var(--color-silver-100);
+  --bg-dark-button-secondary: var(--color-black-100);
+  --bg-base-button-secondary-hover: var(--color-silver-300);
+  --bg-dark-button-secondary-hover: var(--color-black-300);
 
+  --border-base-focused: var(--color-blue-400);
+  --border-dark-focused: var(--color-blue-200);
   --border-base-primary: var(--color-silver-400);
   --border-dark-primary: var(--color-navy-400);
   --border-base-primary-hover: var(--color-gray-300);
   --border-dark-primary-hover: var(--color-navy-300);
 
-  --text-color-base-primary: var(--color-gray-600);
-  --text-color-dark-primary: var(--color-silver-500);
   --text-color-base-heading: var(--color-navy-500);
   --text-color-dark-heading: var(--color-silver-200);
+  --text-color-base-placeholder: var(--color-gray-500);
+  --text-color-dark-placeholder: var(--color-gray-300);
+  --text-color-base-primary: var(--color-gray-600);
+  --text-color-dark-primary: var(--color-silver-500);
+  --text-color-base-secondary: var(--color-gray-500);
+  --text-color-dark-secondary: var(--color-gray-300);
 }
 
 @utility bg-* {
@@ -151,5 +165,13 @@
   h5,
   h6 {
     @apply text-heading;
+  }
+
+  button {
+    @apply cursor-pointer;
+  }
+
+  input::placeholder {
+    @apply text-placeholder;
   }
 }
