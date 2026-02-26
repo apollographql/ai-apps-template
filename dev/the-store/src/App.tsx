@@ -8,6 +8,7 @@ import { Link, MemoryRouter, Route, Routes } from "react-router";
 import { useToolInput, useToolName } from "@apollo/client-ai-apps/react";
 import { useState } from "react";
 import { Logo } from "./Components/Logo";
+import { ShoppingCart } from "lucide-react";
 
 function App() {
   const toolName = useToolName();
@@ -43,7 +44,8 @@ function App() {
             <Logo className="size-10 text-primary dark:text-white" />
             <h1 className="text-2xl font-bold">Apollo Store</h1>
           </Link>
-          <Link to="/cart" className="underline underline-offset-4 font-medium">
+          <Link to="/cart" className="font-medium flex items-center gap-1">
+            <ShoppingCart size={20} />
             Cart
           </Link>
         </div>
