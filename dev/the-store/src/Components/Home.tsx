@@ -1,9 +1,13 @@
-import { useSendFollowUpMessage } from "@apollo/client-ai-apps";
-import { gql } from "@apollo/client";
+import { useApp } from "@apollo/client-ai-apps/react";
+import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Link } from "react-router";
+import type { TopProductsQuery, TopProductsQueryVariables } from "@/gql/types";
 
-const TOP_PRODUCTS = gql`
+const TOP_PRODUCTS: TypedDocumentNode<
+  TopProductsQuery,
+  TopProductsQueryVariables
+> = gql`
   query TopProducts
   @prefetch
   @tool(
@@ -25,38 +29,28 @@ const TOP_PRODUCTS = gql`
   }
 `;
 
-type Product = {
-  id: string;
-  title: string;
-  rating: number;
-  price: number;
-  thumbnail: string;
-};
-
-type Category = {
-  image: string;
-  name: string;
-  slug: string;
-};
-
 function App() {
-  const { loading, error, data } = useQuery<{
-    topProducts: Product[];
-    categories: Category[];
-  }>(TOP_PRODUCTS);
-  const sendPrompt = useSendFollowUpMessage();
+  const app = useApp();
+  const { loading, error, data } = useQuery(TOP_PRODUCTS);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message}</p>;
+
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold">Top Products</h1>
         <button
           onClick={async () => {
-            sendPrompt(
-              "Based on what you know about me, what products should I look at? Inspire me!"
-            );
+            app.sendMessage({
+              role: "user",
+              content: [
+                {
+                  type: "text",
+                  text: "Based on what you know about me, what products should I look at? Inspire me!",
+                },
+              ],
+            });
           }}
           className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
         >

@@ -1,8 +1,10 @@
-import { gql } from "@apollo/client";
+import type { SearchQuery, SearchQueryVariables } from "@/gql/types";
+import { gql, type TypedDocumentNode } from "@apollo/client";
+import { createHydrationUtils, reactive } from "@apollo/client-ai-apps/react";
 import { useQuery } from "@apollo/client/react";
 import { Link, useSearchParams } from "react-router";
 
-const SEARCH_QUERY = gql`
+const SEARCH_QUERY: TypedDocumentNode<SearchQuery, SearchQueryVariables> = gql`
   query SearchQuery($query: String!)
   @tool(
     name: "Search-Products"
@@ -18,25 +20,21 @@ const SEARCH_QUERY = gql`
   }
 `;
 
-type Product = {
-  id: string;
-  title: string;
-  rating: number;
-  price: number;
-  thumbnail: string;
-};
+const { useHydratedVariables } = createHydrationUtils(SEARCH_QUERY);
 
 function SearchResults() {
   const [searchParams] = useSearchParams();
-  const query = searchParams.get("q") || "";
 
-  const { loading, error, data } = useQuery<{ search: Product[] }>(
-    SEARCH_QUERY,
-    {
-      variables: { query },
-      skip: !query,
-    }
-  );
+  const [variables] = useHydratedVariables({
+    query: reactive(searchParams.get("q") || ""),
+  });
+
+  const { query } = variables;
+
+  const { loading, error, data } = useQuery(SEARCH_QUERY, {
+    variables,
+    skip: !query,
+  });
 
   if (!query) {
     return (

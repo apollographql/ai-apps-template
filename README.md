@@ -28,7 +28,10 @@ To run the demo, do all the following in separate terminals:
 2. `cd` into the `dev/the-store` folder and start it with `npm run dev:e2e`
 3. From the root of this project, run `./start_mcp.sh` to start up the mcp server
 
-To view the app locally in an emulator, run `npm run dev` instead of `npm run dev:e2e`.
+You can run the demo locally in an emulator. Run one of the following commands:
+
+- `npm run dev:openai` - Run the demo targeting ChatGPT apps
+- `npm run dev:mcp` - Run the demo targeting MCP apps
 
 To access your running dev server from a provider (E.g. ChatGPT), you will likely need a tool like [ngrok](https://ngrok.com/) to create a tunnel to your locally running MCP server (E.g. `ngrok http 8000`).
 
@@ -38,4 +41,4 @@ Follow the instructions in the OpenAI docs to [Add your app to ChatGPT](https://
 
 ## Ensuring the correct tools are loaded
 
-When adding a URL to MCP Inspector or ChatGPT, add `/mcp?app=the-store` to the end of the URL.  E.g. `https://abc123.ngrok-free.app/mcp?app=the-store`
+When adding a URL to MCP Inspector or ChatGPT, add `/mcp?app=the-store` to the end of the URL. E.g. `https://abc123.ngrok-free.app/mcp?app=the-store`

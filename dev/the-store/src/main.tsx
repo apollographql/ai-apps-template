@@ -1,16 +1,11 @@
-import { StrictMode } from "react";
-import {
-  ApolloClient,
-  ApolloProvider,
-  InMemoryCache,
-  ToolUseProvider,
-  type ApplicationManifest,
-} from "@apollo/client-ai-apps";
+import { StrictMode, Suspense } from "react";
+import { InMemoryCache } from "@apollo/client";
+import { ApolloClient, type ApplicationManifest } from "@apollo/client-ai-apps";
+import { ApolloProvider } from "@apollo/client-ai-apps/react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
 import manifest from "../.application-manifest.json";
-import { MemoryRouter } from "react-router";
 
 const cache = new InMemoryCache({
   typePolicies: {
@@ -26,6 +21,9 @@ const cache = new InMemoryCache({
         },
       },
     },
+    CategoryInfo: {
+      keyFields: ["slug"],
+    },
   },
 });
 
@@ -36,12 +34,10 @@ const client = new ApolloClient({
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ApolloProvider client={client}>
-      <MemoryRouter>
-        <ToolUseProvider appName={manifest.name}>
-          <App />
-        </ToolUseProvider>
-      </MemoryRouter>
-    </ApolloProvider>
+    <Suspense fallback={<div>Loading...</div>}>
+      <ApolloProvider client={client}>
+        <App />
+      </ApolloProvider>
+    </Suspense>
   </StrictMode>
 );

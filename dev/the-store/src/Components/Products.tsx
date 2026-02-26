@@ -1,9 +1,15 @@
-import { gql } from "@apollo/client";
+import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Link, useParams } from "react-router";
 import { useState } from "react";
+import type {
+  Category,
+  ProductsQuery,
+  ProductsQueryVariables,
+} from "@/gql/types";
+import { createHydrationUtils, reactive } from "@apollo/client-ai-apps/react";
 
-const PRODUCTS = gql`
+const PRODUCTS: TypedDocumentNode<ProductsQuery, ProductsQueryVariables> = gql`
   query Products(
     $category: Category!
     $sortBy: String
@@ -40,50 +46,27 @@ const PRODUCTS = gql`
   }
 `;
 
+const { useHydratedVariables } = createHydrationUtils(PRODUCTS);
+
 type Order = "asc" | "desc";
-
-type Product = {
-  id: string;
-  title: string;
-  rating: number;
-  price: number;
-  thumbnail: string;
-};
-
-type CategoryInfo = {
-  name: string;
-  slug: string;
-};
-
-type ProductsResponse = {
-  products: {
-    limit: number;
-    skip: number;
-    total: number;
-    results: Product[];
-  };
-  categories: CategoryInfo[];
-};
 
 const ITEMS_PER_PAGE = 10;
 
 function Products() {
-  const { category } = useParams<{ category: string }>();
-  const [sortBy, setSortBy] = useState<string>("title");
-  const [order, setOrder] = useState<Order>("asc");
+  const params = useParams() as { category: Category };
   const [currentPage, setCurrentPage] = useState(1);
 
-  const skip = (currentPage - 1) * ITEMS_PER_PAGE;
-
-  const { loading, error, data } = useQuery<ProductsResponse>(PRODUCTS, {
-    variables: {
-      category,
-      sortBy,
-      order,
-      limit: ITEMS_PER_PAGE,
-      skip,
-    },
+  const [variables, setVariables] = useHydratedVariables({
+    category: reactive(params.category),
+    sortBy: "title",
+    order: "asc",
+    limit: ITEMS_PER_PAGE,
+    skip: reactive((currentPage - 1) * ITEMS_PER_PAGE),
   });
+
+  const { category, sortBy, order } = variables;
+
+  const { loading, error, data } = useQuery(PRODUCTS, { variables });
 
   if (!category) {
     return <p>Invalid category</p>;
@@ -114,9 +97,9 @@ function Products() {
           <label className="flex items-center gap-2">
             <span className="text-sm font-medium">Sort by:</span>
             <select
-              value={sortBy}
+              value={sortBy ?? undefined}
               onChange={(e) => {
-                setSortBy(e.target.value);
+                setVariables({ sortBy: e.target.value });
                 setCurrentPage(1);
               }}
               className="border rounded px-3 py-1"
@@ -130,9 +113,9 @@ function Products() {
           <label className="flex items-center gap-2">
             <span className="text-sm font-medium">Order:</span>
             <select
-              value={order}
+              value={order ?? undefined}
               onChange={(e) => {
-                setOrder(e.target.value as Order);
+                setVariables({ order: e.target.value as Order });
                 setCurrentPage(1);
               }}
               className="border rounded px-3 py-1"

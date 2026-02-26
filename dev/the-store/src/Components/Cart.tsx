@@ -1,8 +1,17 @@
-import { gql } from "@apollo/client";
+import type {
+  CartQuery,
+  CartQueryVariables,
+  UpdateCartItemQuantityMutation,
+  UpdateCartItemQuantityMutationVariables,
+} from "@/gql/types";
+import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useMutation, useQuery } from "@apollo/client/react";
 import { Link } from "react-router";
 
-const UPDATE_CART_ITEM_QUANTITY = gql`
+const UPDATE_CART_ITEM_QUANTITY: TypedDocumentNode<
+  UpdateCartItemQuantityMutation,
+  UpdateCartItemQuantityMutationVariables
+> = gql`
   mutation UpdateCartItemQuantity($cartItemId: ID!, $quantity: Int!)
   @tool(
     name: "Update-cart-item-quantity"
@@ -15,7 +24,7 @@ const UPDATE_CART_ITEM_QUANTITY = gql`
   }
 `;
 
-const GET_CART = gql`
+const GET_CART: TypedDocumentNode<CartQuery, CartQueryVariables> = gql`
   query CartQuery
   @tool(
     name: "View-Cart"
@@ -33,34 +42,13 @@ const GET_CART = gql`
   }
 `;
 
-type CartItem = {
-  id: string;
-  quantity: number;
-  product: {
-    price: number;
-    thumbnail: string;
-    title: string;
-  };
-};
-
-type UpdateCartItemQuantityResponse = {
-  updateCartItemQuantity: {
-    __typename?: string;
-    id: string;
-    quantity: number;
-  } | null;
-};
-
 function Cart() {
-  const { loading, error, data } = useQuery<{ cart: CartItem[] }>(GET_CART, {
+  const { loading, error, data } = useQuery(GET_CART, {
     fetchPolicy: "network-only",
   });
-  const [updateQuantity] = useMutation<UpdateCartItemQuantityResponse>(
-    UPDATE_CART_ITEM_QUANTITY,
-    {
-      refetchQueries: ["CartQuery"],
-    }
-  );
+  const [updateQuantity] = useMutation(UPDATE_CART_ITEM_QUANTITY, {
+    refetchQueries: ["CartQuery"],
+  });
 
   const handleQuantityChange = (
     itemId: string,

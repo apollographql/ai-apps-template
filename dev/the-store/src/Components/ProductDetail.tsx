@@ -1,8 +1,15 @@
-import { gql } from "@apollo/client";
+import type {
+  AddToCartMutation,
+  AddToCartMutationVariables,
+  ProductQuery,
+  ProductQueryVariables,
+} from "@/gql/types";
+import { gql, type TypedDocumentNode } from "@apollo/client";
+import { createHydrationUtils, reactive } from "@apollo/client-ai-apps/react";
 import { useQuery, useMutation } from "@apollo/client/react";
 import { useParams, Link, useNavigate } from "react-router";
 
-const GET_PRODUCT = gql`
+const GET_PRODUCT: TypedDocumentNode<ProductQuery, ProductQueryVariables> = gql`
   query Product($id: ID!)
   @tool(
     name: "Get-Product"
@@ -19,7 +26,10 @@ const GET_PRODUCT = gql`
   }
 `;
 
-const ADD_TO_CART = gql`
+const ADD_TO_CART: TypedDocumentNode<
+  AddToCartMutation,
+  AddToCartMutationVariables
+> = gql`
   mutation AddToCart($productId: ID!, $quantity: Int!)
   @tool(
     name: "Add-to-Cart"
@@ -31,20 +41,17 @@ const ADD_TO_CART = gql`
   }
 `;
 
-type Product = {
-  id: string;
-  title: string;
-  rating: number;
-  price: number;
-  description: string;
-  images: string[];
-};
+const { useHydratedVariables } = createHydrationUtils(GET_PRODUCT);
 
 function ProductDetail() {
-  const { id } = useParams<{ id: string }>();
+  const params = useParams<{ id: string }>() as { id: string };
   const navigate = useNavigate();
-  const { loading, error, data } = useQuery<{ product: Product }>(GET_PRODUCT, {
-    variables: { id },
+
+  const [variables] = useHydratedVariables({ id: reactive(params.id) });
+  const { id } = variables;
+
+  const { loading, error, data } = useQuery(GET_PRODUCT, {
+    variables,
     fetchPolicy: "cache-and-network",
     returnPartialData: true,
   });
