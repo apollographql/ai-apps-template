@@ -44,10 +44,10 @@ const ADD_TO_CART: TypedDocumentNode<
 const { useHydratedVariables } = createHydrationUtils(GET_PRODUCT);
 
 function ProductDetail() {
-  const { id: idParam } = useParams<{ id: string }>() as { id: string };
+  const params = useParams<{ id: string }>() as { id: string };
   const navigate = useNavigate();
 
-  const [variables] = useHydratedVariables({ id: reactive(idParam) });
+  const [variables] = useHydratedVariables({ id: reactive(params.id) });
   const { id } = variables;
 
   const { loading, error, data } = useQuery(GET_PRODUCT, {

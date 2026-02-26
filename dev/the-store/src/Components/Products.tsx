@@ -53,11 +53,11 @@ type Order = "asc" | "desc";
 const ITEMS_PER_PAGE = 10;
 
 function Products() {
-  const { category: categoryParam } = useParams() as { category: Category };
+  const params = useParams() as { category: Category };
   const [currentPage, setCurrentPage] = useState(1);
 
   const [variables, setVariables] = useHydratedVariables({
-    category: reactive(categoryParam),
+    category: reactive(params.category),
     sortBy: "title",
     order: "asc",
     limit: ITEMS_PER_PAGE,
