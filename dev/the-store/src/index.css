@@ -111,6 +111,8 @@
 
   --text-color-base-heading: var(--color-navy-500);
   --text-color-dark-heading: var(--color-silver-200);
+  --text-color-base-neutral: var(--color-gray-600);
+  --text-color-dark-neutral: var(--color-gray-100);
   --text-color-base-placeholder: var(--color-gray-500);
   --text-color-dark-placeholder: var(--color-gray-300);
   --text-color-base-primary: var(--color-gray-600);
