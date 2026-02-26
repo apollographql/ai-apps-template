@@ -36,7 +36,7 @@ function App() {
   if (error) return <p>Error : {error.message}</p>;
 
   return (
-    <div>
+    <>
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold">Top Products</h1>
         <Button
@@ -88,7 +88,7 @@ function App() {
           </Link>
         ))}
       </div>
-    </div>
+    </>
   );
 }
 
