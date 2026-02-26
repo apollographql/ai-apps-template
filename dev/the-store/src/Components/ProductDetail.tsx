@@ -5,6 +5,7 @@ import type {
   ProductQueryVariables,
 } from "@/gql/types";
 import { gql, type TypedDocumentNode } from "@apollo/client";
+import { createHydrationUtils, reactive } from "@apollo/client-ai-apps/react";
 import { useQuery, useMutation } from "@apollo/client/react";
 import { useParams, Link, useNavigate } from "react-router";
 
@@ -40,11 +41,17 @@ const ADD_TO_CART: TypedDocumentNode<
   }
 `;
 
+const { useHydratedVariables } = createHydrationUtils(GET_PRODUCT);
+
 function ProductDetail() {
-  const { id } = useParams<{ id: string }>() as { id: string };
+  const { id: idParam } = useParams<{ id: string }>() as { id: string };
   const navigate = useNavigate();
+
+  const [variables] = useHydratedVariables({ id: reactive(idParam) });
+  const { id } = variables;
+
   const { loading, error, data } = useQuery(GET_PRODUCT, {
-    variables: { id },
+    variables,
     fetchPolicy: "cache-and-network",
     returnPartialData: true,
   });

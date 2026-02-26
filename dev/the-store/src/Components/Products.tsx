@@ -7,7 +7,7 @@ import type {
   ProductsQuery,
   ProductsQueryVariables,
 } from "@/gql/types";
-import { useToolInput } from "@apollo/client-ai-apps/react";
+import { createHydrationUtils, reactive } from "@apollo/client-ai-apps/react";
 
 const PRODUCTS: TypedDocumentNode<ProductsQuery, ProductsQueryVariables> = gql`
   query Products(
@@ -46,32 +46,27 @@ const PRODUCTS: TypedDocumentNode<ProductsQuery, ProductsQueryVariables> = gql`
   }
 `;
 
+const { useHydratedVariables } = createHydrationUtils(PRODUCTS);
+
 type Order = "asc" | "desc";
 
 const ITEMS_PER_PAGE = 10;
 
 function Products() {
-  const toolInput = useToolInput();
-  const { category } = useParams() as { category: Category };
-  const [sortBy, setSortBy] = useState<string>(
-    (toolInput?.sortBy as string | undefined) ?? "title"
-  );
-  const [order, setOrder] = useState<Order>(
-    (toolInput?.order as Order | undefined) ?? "asc"
-  );
+  const { category: categoryParam } = useParams() as { category: Category };
   const [currentPage, setCurrentPage] = useState(1);
 
-  const skip = (currentPage - 1) * ITEMS_PER_PAGE;
-
-  const { loading, error, data } = useQuery(PRODUCTS, {
-    variables: {
-      category,
-      sortBy,
-      order,
-      limit: ITEMS_PER_PAGE,
-      skip,
-    },
+  const [variables, setVariables] = useHydratedVariables({
+    category: reactive(categoryParam),
+    sortBy: "title",
+    order: "asc",
+    limit: ITEMS_PER_PAGE,
+    skip: reactive((currentPage - 1) * ITEMS_PER_PAGE),
   });
+
+  const { category, sortBy, order } = variables;
+
+  const { loading, error, data } = useQuery(PRODUCTS, { variables });
 
   if (!category) {
     return <p>Invalid category</p>;
@@ -102,9 +97,9 @@ function Products() {
           <label className="flex items-center gap-2">
             <span className="text-sm font-medium">Sort by:</span>
             <select
-              value={sortBy}
+              value={sortBy ?? undefined}
               onChange={(e) => {
-                setSortBy(e.target.value);
+                setVariables({ sortBy: e.target.value });
                 setCurrentPage(1);
               }}
               className="border rounded px-3 py-1"
@@ -118,9 +113,9 @@ function Products() {
           <label className="flex items-center gap-2">
             <span className="text-sm font-medium">Order:</span>
             <select
-              value={order}
+              value={order ?? undefined}
               onChange={(e) => {
-                setOrder(e.target.value as Order);
+                setVariables({ order: e.target.value as Order });
                 setCurrentPage(1);
               }}
               className="border rounded px-3 py-1"

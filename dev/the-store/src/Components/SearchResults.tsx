@@ -1,5 +1,6 @@
 import type { SearchQuery, SearchQueryVariables } from "@/gql/types";
 import { gql, type TypedDocumentNode } from "@apollo/client";
+import { createHydrationUtils, reactive } from "@apollo/client-ai-apps/react";
 import { useQuery } from "@apollo/client/react";
 import { Link, useSearchParams } from "react-router";
 
@@ -19,12 +20,19 @@ const SEARCH_QUERY: TypedDocumentNode<SearchQuery, SearchQueryVariables> = gql`
   }
 `;
 
+const { useHydratedVariables } = createHydrationUtils(SEARCH_QUERY);
+
 function SearchResults() {
   const [searchParams] = useSearchParams();
-  const query = searchParams.get("q") || "";
+
+  const [variables] = useHydratedVariables({
+    query: reactive(searchParams.get("q") || ""),
+  });
+
+  const { query } = variables;
 
   const { loading, error, data } = useQuery(SEARCH_QUERY, {
-    variables: { query },
+    variables,
     skip: !query,
   });
 
