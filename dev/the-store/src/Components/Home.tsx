@@ -56,7 +56,7 @@ function App() {
           ✨ Inspire me
         </Button>
       </div>
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(192px,1fr))] gap-4 mb-8">
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(192px,1fr))] gap-4 mb-8">
         {data?.topProducts.map((product) => (
           <ProductTile key={product.id} product={product} />
         ))}
