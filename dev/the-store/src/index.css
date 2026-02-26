@@ -101,6 +101,8 @@
 
   --text-color-base-primary: var(--color-gray-600);
   --text-color-dark-primary: var(--color-silver-500);
+  --text-color-base-heading: var(--color-navy-500);
+  --text-color-dark-heading: var(--color-silver-200);
 }
 
 @utility bg-* {
@@ -140,5 +142,14 @@
     @apply bg-primary;
     @apply font-sans!;
     @apply text-primary;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-heading;
   }
 }
