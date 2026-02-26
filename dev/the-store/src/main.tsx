@@ -6,8 +6,10 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
 import manifest from "../.application-manifest.json";
+import { fragments } from "./apollo/fragmentRegistry.ts";
 
 const cache = new InMemoryCache({
+  fragments,
   typePolicies: {
     Query: {
       fields: {
