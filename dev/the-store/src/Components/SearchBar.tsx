@@ -26,14 +26,6 @@ function SearchBar() {
         <Button type="submit" size="lg" variant="primary">
           Search
         </Button>
-        <Button
-          type="submit"
-          variant="secondary"
-          size="lg"
-          onClick={() => navigate("/cart")}
-        >
-          Cart
-        </Button>
       </div>
     </form>
   );
