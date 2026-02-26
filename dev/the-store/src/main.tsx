@@ -32,6 +32,7 @@ const cache = new InMemoryCache({
 const client = new ApolloClient({
   cache,
   manifest: manifest as ApplicationManifest,
+  dataMasking: true,
 });
 
 createRoot(document.getElementById("root")!).render(
