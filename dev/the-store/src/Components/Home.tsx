@@ -3,6 +3,8 @@ import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Link } from "react-router";
 import type { TopProductsQuery, TopProductsQueryVariables } from "@/gql/types";
+import { ProductTile } from "./ProductTile";
+import { Button } from "./Button";
 
 const TOP_PRODUCTS: TypedDocumentNode<
   TopProductsQuery,
@@ -16,10 +18,7 @@ const TOP_PRODUCTS: TypedDocumentNode<
   ) {
     topProducts {
       id
-      title
-      rating
-      price
-      thumbnail
+      ...ProductTile_product
     }
     categories {
       image
@@ -40,7 +39,8 @@ function App() {
     <div>
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold">Top Products</h1>
-        <button
+        <Button
+          variant="secondary"
           onClick={async () => {
             app.sendMessage({
               role: "user",
@@ -52,31 +52,13 @@ function App() {
               ],
             });
           }}
-          className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
         >
           ✨ Inspire me
-        </button>
+        </Button>
       </div>
-      <div className="flex flex-wrap gap-4 mb-8">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(192px,1fr))] gap-4 mb-8">
         {data?.topProducts.map((product) => (
-          <Link
-            key={product.id}
-            to={`/product/${product.id}`}
-            className="block"
-          >
-            <div className="border rounded-lg p-4 w-48 shadow-sm hover:shadow-md transition-shadow">
-              <img
-                src={product.thumbnail}
-                alt={product.title}
-                className="w-full h-32 object-cover rounded mb-2"
-              />
-              <h3 className="font-semibold text-lg mb-2">{product.title}</h3>
-              <p className="text-gray-600 mb-1">⭐ {product.rating}</p>
-              <p className="text-green-600 font-medium">
-                ${product.price.toFixed(2)}
-              </p>
-            </div>
-          </Link>
+          <ProductTile key={product.id} product={product} />
         ))}
       </div>
 

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { Button } from "./Button";
 
 function SearchBar() {
   const [query, setQuery] = useState("");
@@ -13,28 +14,26 @@ function SearchBar() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-2xl mx-auto mb-6">
+    <form onSubmit={handleSubmit} className="w-full mx-auto mb-6">
       <div className="flex gap-2">
         <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search for products..."
-          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
+          className="flex-1 px-4 py-2 h-12 rounded-lg border border-primary hover:border-primary-hover focus:outline-none focus:border-2 focus:border-focused bg-input transition-colors"
         />
-        <button
-          type="submit"
-          className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-        >
+        <Button type="submit" size="lg" variant="primary">
           Search
-        </button>
-        <button
-          type="button"
+        </Button>
+        <Button
+          type="submit"
+          variant="secondary"
+          size="lg"
           onClick={() => navigate("/cart")}
-          className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
         >
           Cart
-        </button>
+        </Button>
       </div>
     </form>
   );
