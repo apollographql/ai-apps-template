@@ -62,33 +62,31 @@ function App() {
         ))}
       </div>
 
-      <div className="mt-8">
-        <h2 className="text-2xl font-bold mb-4">Shop by Category</h2>
-        <div className="grid grid-cols-3 gap-4">
-          {data?.categories.map((category) => (
-            <Link
-              key={category.slug}
-              to={`/products/${category.slug}`}
-              className="block"
-            >
-              <div className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow bg-gray-100">
-                <div className="relative h-48 w-full">
-                  <img
-                    src={category.image}
-                    alt={category.name}
-                    className="w-full h-full object-cover absolute inset-0"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/20 flex items-end justify-center pb-4">
-                    <h3 className="text-white text-xl font-bold text-center px-4 drop-shadow-lg">
-                      {category.name}
-                    </h3>
-                  </div>
+      <h2 className="text-2xl font-bold mb-4">Shop by Category</h2>
+      <div className="grid grid-cols-3 gap-4">
+        {data?.categories.map((category) => (
+          <Link
+            key={category.slug}
+            to={`/products/${category.slug}`}
+            className="block"
+          >
+            <div className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow bg-gray-100">
+              <div className="relative h-48 w-full">
+                <img
+                  src={category.image}
+                  alt={category.name}
+                  className="w-full h-full object-cover absolute inset-0"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/20 flex items-end justify-center pb-4">
+                  <h3 className="text-white text-xl font-bold text-center px-4 drop-shadow-lg">
+                    {category.name}
+                  </h3>
                 </div>
               </div>
-            </Link>
-          ))}
-        </div>
+            </div>
+          </Link>
+        ))}
       </div>
     </div>
   );

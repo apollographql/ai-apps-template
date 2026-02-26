@@ -1,6 +1,6 @@
 import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
-import { Link, useParams } from "react-router";
+import { useParams } from "react-router";
 import { useState } from "react";
 import type {
   Category,
@@ -8,6 +8,7 @@ import type {
   ProductsQueryVariables,
 } from "@/gql/types";
 import { createHydrationUtils, reactive } from "@apollo/client-ai-apps/react";
+import { ProductTile } from "./ProductTile";
 
 const PRODUCTS: TypedDocumentNode<ProductsQuery, ProductsQueryVariables> = gql`
   query Products(
@@ -33,10 +34,7 @@ const PRODUCTS: TypedDocumentNode<ProductsQuery, ProductsQueryVariables> = gql`
       total
       results {
         id
-        title
-        rating
-        price
-        thumbnail
+        ...ProductTile_product
       }
     }
     categories {
@@ -127,7 +125,7 @@ function Products() {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-4 mb-8">
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(196px,1fr))] gap-4 mb-8">
         {loading ?
           Array.from({ length: ITEMS_PER_PAGE }).map((_, index) => (
             <div
@@ -141,24 +139,7 @@ function Products() {
             </div>
           ))
         : data?.products.results.map((product) => (
-            <Link
-              key={product.id}
-              to={`/product/${product.id}`}
-              className="block"
-            >
-              <div className="border rounded-lg p-4 w-48 shadow-sm hover:shadow-md transition-shadow">
-                <img
-                  src={product.thumbnail}
-                  alt={product.title}
-                  className="w-full h-32 object-cover rounded mb-2"
-                />
-                <h3 className="font-semibold text-lg mb-2">{product.title}</h3>
-                <p className="text-gray-600 mb-1">⭐ {product.rating}</p>
-                <p className="text-green-600 font-medium">
-                  ${product.price.toFixed(2)}
-                </p>
-              </div>
-            </Link>
+            <ProductTile key={product.id} product={product} />
           ))
         }
       </div>

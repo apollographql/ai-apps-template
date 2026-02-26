@@ -206,14 +206,7 @@ export type TopProductsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type TopProductsQuery = {
   topProducts: Array<
-    {
-      __typename: "Product";
-      id: string;
-      title: string;
-      rating: number;
-      price: number;
-      thumbnail: string;
-    } & {
+    { __typename: "Product"; id: string } & {
       " $fragmentRefs"?: {
         ProductTile_productFragment: ProductTile_productFragment;
       };
@@ -275,14 +268,20 @@ export type ProductsQuery = {
     limit: number;
     skip: number;
     total: number;
-    results: Array<{
-      __typename: "Product";
-      id: string;
-      title: string;
-      rating: number;
-      price: number;
-      thumbnail: string;
-    }>;
+    results: Array<
+      {
+        __typename: "Product";
+        id: string;
+        title: string;
+        rating: number;
+        price: number;
+        thumbnail: string;
+      } & {
+        " $fragmentRefs"?: {
+          ProductTile_productFragment: ProductTile_productFragment;
+        };
+      }
+    >;
   };
   categories: Array<{
     __typename: "CategoryInfo";
@@ -296,12 +295,11 @@ export type SearchQueryVariables = Exact<{
 }>;
 
 export type SearchQuery = {
-  search: Array<{
-    __typename: "Product";
-    id: string;
-    title: string;
-    rating: number;
-    price: number;
-    thumbnail: string;
-  }>;
+  search: Array<
+    { __typename: "Product"; id: string } & {
+      " $fragmentRefs"?: {
+        ProductTile_productFragment: ProductTile_productFragment;
+      };
+    }
+  >;
 };

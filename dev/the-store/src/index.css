@@ -153,9 +153,11 @@
     color-scheme: light dark;
   }
 
-  body {
-    @apply min-h-dvh;
+  html {
     @apply bg-primary;
+  }
+
+  body {
     @apply font-sans!;
     @apply text-primary;
   }
