@@ -128,10 +128,12 @@
   --text-color-base-secondary: var(--color-gray-500);
   --text-color-dark-secondary: var(--color-gray-300);
 
-  --text-color-base-icon-primary: var(--text-color-base-primary);
-  --text-color-dark-icon-primary: var(--text-color-dark-primary);
   --text-color-base-icon-disabled: var(--color-gray-200);
   --text-color-dark-icon-disabled: var(--color-navy-300);
+  --text-color-base-icon-primary: var(--text-color-base-primary);
+  --text-color-dark-icon-primary: var(--text-color-dark-primary);
+  --text-color-base-icon-secondary: var(--color-gray-500);
+  --text-color-dark-icon-secondary: var(--color-gray-400);
 }
 
 @utility bg-* {

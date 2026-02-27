@@ -1,6 +1,6 @@
 import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import { useState } from "react";
 import type {
   Category,
@@ -11,6 +11,7 @@ import { createHydrationUtils, reactive } from "@apollo/client-ai-apps/react";
 import { ProductTile } from "./ProductTile";
 import { SkeletonTile } from "./SkeletonTile";
 import { Button } from "./Button";
+import { ArrowLeft, ArrowRight, ChevronRight } from "lucide-react";
 
 const PRODUCTS: TypedDocumentNode<ProductsQuery, ProductsQueryVariables> = gql`
   query Products(
@@ -80,7 +81,18 @@ function Products() {
 
   return (
     <>
-      <h1 className="text-2xl font-bold mb-2">{displayName}</h1>
+      <div className="flex items-center gap-2 mb-2">
+        <Link
+          to="/home"
+          className="hover:text-secondary hover:underline transition-colors"
+        >
+          Products
+        </Link>
+        <ChevronRight size={16} className="text-icon-secondary" />
+        <span className="font-semibold">{displayName}</span>
+      </div>
+
+      <h1 className="text-3xl font-bold mb-2">{displayName}</h1>
 
       <div className="flex items-center justify-between mb-6">
         <p className="text-secondary">
@@ -140,6 +152,7 @@ function Products() {
             disabled={currentPage === 1}
             variant="hidden"
             size="sm"
+            iconLeft={ArrowLeft}
           >
             Previous
           </Button>
@@ -187,6 +200,7 @@ function Products() {
             disabled={currentPage === totalPages}
             variant="hidden"
             size="sm"
+            iconRight={ArrowRight}
           >
             Next
           </Button>
