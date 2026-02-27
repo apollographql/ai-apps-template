@@ -93,7 +93,7 @@ function Cart() {
             {cartItems.map((item) => (
               <div
                 key={item.id}
-                className="flex items-center gap-4 p-4 border border-primary rounded"
+                className="flex items-center gap-4 p-4 border border-primary rounded-lg"
               >
                 <img
                   src={item.product.thumbnail}
