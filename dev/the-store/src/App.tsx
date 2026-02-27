@@ -4,12 +4,10 @@ import Products from "./Components/Products";
 import Cart from "./Components/Cart";
 import SearchBar from "./Components/SearchBar";
 import SearchResults from "./Components/SearchResults";
-import { Link, MemoryRouter, Route, Routes } from "react-router";
-import { Platform } from "@apollo/client-ai-apps";
+import { MemoryRouter, Route, Routes } from "react-router";
 import { useToolInput, useToolName } from "@apollo/client-ai-apps/react";
 import { useState } from "react";
-import { Logo } from "./Components/Logo";
-import { ShoppingCart } from "lucide-react";
+import { MainHeader } from "./Components/MainHeader";
 
 function App() {
   const toolName = useToolName();
@@ -40,22 +38,7 @@ function App() {
   return (
     <MemoryRouter initialEntries={[initialRoute]}>
       <div className="container mx-auto px-4 py-6">
-        <div className="flex items-center justify-between gap-2 mb-4">
-          <Link to="/home" className="flex gap-2 items-center">
-            <Logo className="size-10 text-primary dark:text-white" />
-            <h1 className="text-2xl font-bold">
-              {Platform.select({
-                mcp: "Apollo MCP Store",
-                openai: "Apollo ChatGPT Store",
-              })}
-            </h1>
-          </Link>
-          <Link to="/cart" className="font-medium flex items-center gap-1">
-            <ShoppingCart size={20} />
-            Cart
-          </Link>
-        </div>
-
+        <MainHeader />
         <SearchBar />
         <Routes>
           <Route index element={<div>Loading...</div>} />
