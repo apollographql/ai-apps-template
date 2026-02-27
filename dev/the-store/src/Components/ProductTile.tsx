@@ -1,6 +1,6 @@
 import { gql, type FragmentType, type TypedDocumentNode } from "@apollo/client";
 import { fragments } from "../apollo/fragmentRegistry";
-import { useFragment } from "@apollo/client/react";
+import { useSuspenseFragment } from "@apollo/client/react";
 import { Link } from "react-router";
 import type { ProductTile_productFragment } from "@/gql/types";
 import { Rating } from "./Rating";
@@ -25,14 +25,10 @@ interface Props {
 }
 
 export function ProductTile({ product }: Props) {
-  const { data, complete } = useFragment({
+  const { data } = useSuspenseFragment({
     fragment: ProductTileFragment,
     from: product,
   });
-
-  if (!complete) {
-    return null;
-  }
 
   return (
     <Link
