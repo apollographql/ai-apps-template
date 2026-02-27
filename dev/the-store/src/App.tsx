@@ -18,7 +18,7 @@ function App() {
   function getInitialRoute() {
     switch (toolName) {
       case "Top-Products":
-        return "/hom";
+        return "/home";
       case "Get-Product":
         return `/product/${toolInput?.id}`;
       case "View-Cart":
