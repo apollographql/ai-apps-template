@@ -103,7 +103,8 @@ function Products() {
 
       <div className="flex items-center justify-between mb-6">
         <p className="text-secondary">
-          Showing {loading ? "?" : products.results.length || 0} of{" "}
+          Showing {loading ? "?" : products.skip + 1}-
+          {loading ? "?" : products.skip + products.results.length} of{" "}
           {loading ? "?" : products.total || 0} products
         </p>
 
