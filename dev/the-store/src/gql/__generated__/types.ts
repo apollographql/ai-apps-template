@@ -202,6 +202,13 @@ export type CartQuery = {
   }>;
 };
 
+export type CategoryTile_categoryFragment = {
+  __typename: "CategoryInfo";
+  image: string;
+  name: string;
+  slug: Category;
+} & { " $fragmentName"?: "CategoryTile_categoryFragment" };
+
 export type TopProductsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type TopProductsQuery = {
@@ -212,12 +219,13 @@ export type TopProductsQuery = {
       };
     }
   >;
-  categories: Array<{
-    __typename: "CategoryInfo";
-    image: string;
-    name: string;
-    slug: Category;
-  }>;
+  categories: Array<
+    { __typename: "CategoryInfo"; slug: Category } & {
+      " $fragmentRefs"?: {
+        CategoryTile_categoryFragment: CategoryTile_categoryFragment;
+      };
+    }
+  >;
 };
 
 export type ProductQueryVariables = Exact<{
@@ -269,14 +277,7 @@ export type ProductsQuery = {
     skip: number;
     total: number;
     results: Array<
-      {
-        __typename: "Product";
-        id: string;
-        title: string;
-        rating: number;
-        price: number;
-        thumbnail: string;
-      } & {
+      { __typename: "Product"; id: string } & {
         " $fragmentRefs"?: {
           ProductTile_productFragment: ProductTile_productFragment;
         };

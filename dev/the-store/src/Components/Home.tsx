@@ -1,10 +1,10 @@
 import { useApp } from "@apollo/client-ai-apps/react";
 import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
-import { Link } from "react-router";
 import type { TopProductsQuery, TopProductsQueryVariables } from "@/gql/types";
 import { ProductTile } from "./ProductTile";
 import { Button } from "./Button";
+import { CategoryTile } from "./CategoryTile";
 
 const TOP_PRODUCTS: TypedDocumentNode<
   TopProductsQuery,
@@ -21,9 +21,8 @@ const TOP_PRODUCTS: TypedDocumentNode<
       ...ProductTile_product
     }
     categories {
-      image
-      name
       slug
+      ...CategoryTile_category
     }
   }
 `;
@@ -65,27 +64,7 @@ function App() {
       <h2 className="text-2xl font-bold mb-4">Shop by Category</h2>
       <div className="grid grid-cols-3 gap-4">
         {data?.categories.map((category) => (
-          <Link
-            key={category.slug}
-            to={`/products/${category.slug}`}
-            className="block"
-          >
-            <div className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow bg-gray-100">
-              <div className="relative h-48 w-full">
-                <img
-                  src={category.image}
-                  alt={category.name}
-                  className="w-full h-full object-cover absolute inset-0"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/20 flex items-end justify-center pb-4">
-                  <h3 className="text-white text-xl font-bold text-center px-4 drop-shadow-lg">
-                    {category.name}
-                  </h3>
-                </div>
-              </div>
-            </div>
-          </Link>
+          <CategoryTile key={category.slug} category={category} />
         ))}
       </div>
     </>
