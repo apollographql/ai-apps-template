@@ -8,4 +8,7 @@ export default defineConfig({
       "https://fonts.gstatic.com",
     ],
   },
+  widgetSettings: {
+    prefersBorder: true,
+  },
 });

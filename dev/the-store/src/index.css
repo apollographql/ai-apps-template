@@ -182,7 +182,6 @@
   }
 
   body {
-    @apply font-sans!;
     @apply text-primary;
   }
 
