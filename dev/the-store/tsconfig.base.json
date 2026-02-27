@@ -24,7 +24,8 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
     "paths": {
-      "@/gql/types": ["./src/gql/__generated__/types.ts"]
+      "@/gql/types": ["./src/gql/__generated__/types.ts"],
+      "@/*": ["./src/*"]
     }
   }
 }
