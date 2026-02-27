@@ -7,6 +7,7 @@ import CategoryDetailRoute from "./routes/categories.$slug";
 import CartRoute from "./routes/cart";
 import SearchRoute from "./routes/search";
 import SearchBar from "./components/SearchBar";
+import NotFound from "./routes/$";
 import { MainHeader } from "./components/MainHeader";
 
 function App() {
@@ -49,7 +50,7 @@ function App() {
           />
           <Route path="/cart" element={<CartRoute />} />
           <Route path="/search" element={<SearchRoute />} />
-          <Route path="*" element={<div>Not found</div>} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </MemoryRouter>
