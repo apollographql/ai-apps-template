@@ -25,7 +25,7 @@ export function CategoryTile({ category }: Props) {
   });
 
   return (
-    <Link to={`/products/${data.slug}`} className="block">
+    <Link to={`/categories/${data.slug}`} className="block">
       <div className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow bg-gray-100">
         <div className="relative h-48 w-full">
           <img
