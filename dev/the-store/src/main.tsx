@@ -7,6 +7,7 @@ import "./index.css";
 import App from "./App.tsx";
 import manifest from "../.application-manifest.json";
 import { fragments } from "./apollo/fragmentRegistry.ts";
+import { Spinner } from "./Components/Spinner.tsx";
 
 const cache = new InMemoryCache({
   fragments,
@@ -37,7 +38,13 @@ const client = new ApolloClient({
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center min-h-52">
+          <Spinner className="size-10" />
+        </div>
+      }
+    >
       <ApolloProvider client={client}>
         <App />
       </ApolloProvider>
