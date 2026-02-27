@@ -59,7 +59,13 @@ function Cart() {
         cartItemId: itemId,
         quantity,
       },
-      refetchQueries: ["CartQuery"],
+      optimisticResponse: {
+        updateCartItemQuantity: {
+          __typename: "CartItem",
+          id: itemId,
+          quantity,
+        },
+      },
     });
   };
 
