@@ -20,7 +20,7 @@ function App() {
       case "Top-Products":
         return "/home";
       case "Get-Product":
-        return `/product/${toolInput?.id}`;
+        return `/products/${toolInput?.id}`;
       case "View-Cart":
       case "Update-cart-item-quantity":
       case "Add-to-Cart":
@@ -28,7 +28,7 @@ function App() {
       case "Search-Products":
         return `/search?q=${encodeURIComponent(toolInput?.query as string)}`;
       case "Browse-Products":
-        return `/products/${toolInput?.category}`;
+        return `/categories/${toolInput?.category}`;
       default: {
         console.warn(`Unable to match route for tool '${toolName}`);
         return "/";
