@@ -65,22 +65,23 @@ function Products() {
 
   const { category, sortBy, order } = variables;
 
-  const { loading, error, data, dataState } = useQuery(PRODUCTS, { variables });
+  const { loading, error, data } = useQuery(PRODUCTS, { variables });
 
   if (!category) {
     return <p>Invalid category</p>;
   }
 
-  if (error || dataState !== "complete") {
+  if (error) {
     return <p>Error: {error ? error.message : "Could not fetch data"}</p>;
   }
 
-  const { categories, products } = data;
-  const limit = variables.limit ?? products.limit;
-  const totalPages = Math.ceil(products.total / limit);
-  const categoryInfo = categories.find((c) => c.slug === category);
+  const limit = variables.limit ?? data?.products.limit ?? ITEMS_PER_PAGE;
+  const total = data?.products.total ?? 0;
+  const skip = data?.products.skip ?? 0;
+  const totalPages = Math.ceil(total / limit);
+  const categoryInfo = data?.categories.find((c) => c.slug === category);
   const displayName = categoryInfo?.name || category;
-  const currentPage = Math.floor(products.skip / limit) + 1;
+  const currentPage = Math.floor(skip / limit) + 1;
 
   function getSkipForPage(page: number) {
     return (page - 1) * limit;
@@ -103,9 +104,9 @@ function Products() {
 
       <div className="flex items-center justify-between mb-6">
         <p className="text-secondary">
-          Showing {loading ? "?" : products.skip + 1}-
-          {loading ? "?" : products.skip + products.results.length} of{" "}
-          {loading ? "?" : products.total || 0} products
+          Showing {loading ? "?" : skip + 1}-
+          {loading ? "?" : skip + (data?.products?.results.length ?? 1)} of{" "}
+          {loading ? "?" : total || 0} products
         </p>
 
         <div className="flex items-center gap-4">
@@ -145,7 +146,7 @@ function Products() {
           Array.from({ length: 9 }).map((_, index) => (
             <SkeletonTile key={index} />
           ))
-        : products.results.map((product) => (
+        : data?.products.results.map((product) => (
             <ProductTile key={product.id} product={product} />
           ))
         }
