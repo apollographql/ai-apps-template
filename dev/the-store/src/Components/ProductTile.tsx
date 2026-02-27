@@ -3,7 +3,7 @@ import { fragments } from "../apollo/fragmentRegistry";
 import { useFragment } from "@apollo/client/react";
 import { Link } from "react-router";
 import type { ProductTile_productFragment } from "@/gql/types";
-import { Star } from "lucide-react";
+import { Rating } from "./Rating";
 
 const ProductTileFragment: TypedDocumentNode<
   ProductTile_productFragment,
@@ -34,9 +34,6 @@ export function ProductTile({ product }: Props) {
     return null;
   }
 
-  const ratingActual = Math.round(data.rating);
-  const ratingRemaining = 5 - ratingActual;
-
   return (
     <Link
       to={`/product/${data.id}`}
@@ -51,20 +48,7 @@ export function ProductTile({ product }: Props) {
       <div className="font-medium text-xl flex-1 mb-2">
         ${data.price.toFixed(2)}
       </div>
-      <div className="flex gap-1 items-center mb-1">
-        {Array.from({ length: ratingActual }).map((_, idx) => (
-          <Star
-            key={idx}
-            className="text-yellow-200"
-            fill="currentColor"
-            size={16}
-          />
-        ))}
-        {Array.from({ length: ratingRemaining }).map((_, idx) => (
-          <Star key={idx} className="text-primary" size={16} />
-        ))}
-        <span className="tabular-nums">{data.rating}</span>
-      </div>
+      <Rating rating={data.rating} className="mb-1" />
     </Link>
   );
 }
