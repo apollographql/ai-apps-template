@@ -5,7 +5,7 @@ import type { TopProductsQuery, TopProductsQueryVariables } from "@/gql/types";
 import { ProductTile } from "@/components/ProductTile";
 import { Button } from "@/components/Button";
 import { CategoryTile } from "@/components/CategoryTile";
-import { Spinner } from "@/components/Spinner";
+import { PageSpinner } from "@/components/PageSpinner";
 
 const TOP_PRODUCTS: TypedDocumentNode<
   TopProductsQuery,
@@ -56,9 +56,7 @@ function App() {
         </Button>
       </div>
       {loading ?
-        <div className="min-h-52 flex items-center justify-center">
-          <Spinner className="size-10" />
-        </div>
+        <PageSpinner />
       : <>
           <div className="grid grid-cols-[repeat(3,minmax(192px,1fr))] gap-4 mb-8">
             {data?.topProducts.map((product) => (
