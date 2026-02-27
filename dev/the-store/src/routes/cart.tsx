@@ -9,6 +9,7 @@ import { useMutation, useQuery } from "@apollo/client/react";
 import { ArrowLeft, Plus, Minus } from "lucide-react";
 import { Link } from "react-router";
 import { Button } from "@/components/Button";
+import { PageSpinner } from "@/components/PageSpinner";
 
 const UPDATE_CART_ITEM_QUANTITY: TypedDocumentNode<
   UpdateCartItemQuantityMutation,
@@ -66,7 +67,6 @@ function Cart() {
     });
   };
 
-  if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
   const cartItems = data?.cart || [];
@@ -83,7 +83,9 @@ function Cart() {
 
       <h1 className="text-3xl font-bold mb-2">Your Cart</h1>
 
-      {cartItems.length === 0 ?
+      {loading ?
+        <PageSpinner />
+      : cartItems.length === 0 ?
         <p className="text-neutral">Your cart is empty</p>
       : <>
           <div className="flex flex-col gap-4">
