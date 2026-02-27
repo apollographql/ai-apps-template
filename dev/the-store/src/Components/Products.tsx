@@ -134,7 +134,7 @@ function Products() {
         </div>
       </div>
 
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(192px,1fr))] gap-4">
+      <div className="grid grid-cols-[repeat(3,minmax(192px,1fr))] gap-4">
         {loading ?
           Array.from({ length: 9 }).map((_, index) => (
             <SkeletonTile key={index} />
