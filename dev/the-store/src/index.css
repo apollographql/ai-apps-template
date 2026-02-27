@@ -154,6 +154,15 @@
   }
 }
 
+@utility border-t-* {
+  border-top-color: --value(--border-base-*);
+
+  @variant dark {
+    /* prettier-ignore */
+    border-top-color: --value(--border-dark-*);
+  }
+}
+
 @utility text-* {
   color: --value(--text-color-base-*);
 

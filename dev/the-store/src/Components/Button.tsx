@@ -17,6 +17,8 @@ export function Button({
   iconRight: IconRight,
   ...props
 }: Props) {
+  const buttonSize = children ? size : (`${size}-icon` as const);
+
   return (
     <button
       {...props}
@@ -28,27 +30,32 @@ export function Button({
         variant === "secondary" &&
           "text-primary border border-primary bg-button-secondary hover:bg-button-secondary-hover",
         variant === "hidden" && "text-primary hover:bg-button-secondary-hover",
-        size === "lg" && "px-4 py-3 h-12 text-base",
-        size === "md" && "px-3 py-2 h-10 text-sm",
-        size === "sm" && "px-3 py-2 h-8 text-sm",
+        buttonSize === "lg" && "px-4 py-3 h-12 text-base",
+        buttonSize === "lg-icon" && "px-4 w-12 h-12 text-base",
+        buttonSize === "md" && "px-3 py-2 h-10 text-sm",
+        buttonSize === "md-icon" && "px-3 w-10 h-10 text-sm",
+        buttonSize === "sm" && "px-3 py-2 h-8 text-sm",
+        buttonSize === "sm-icon" && "px-3 w-8 h-8 text-sm",
         className
       )}
     >
       {IconLeft && (
         <IconLeft
           size={iconSize(size)}
-          className={
+          className={clsx(
+            "shrink-0",
             props.disabled ? "text-icon-disabled" : "text-icon-primary"
-          }
+          )}
         />
       )}
       {children}
       {IconRight && (
         <IconRight
           size={iconSize(size)}
-          className={
+          className={clsx(
+            "shrink-0",
             props.disabled ? "text-icon-disabled" : "text-icon-primary"
-          }
+          )}
         />
       )}
     </button>
