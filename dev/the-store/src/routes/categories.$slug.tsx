@@ -1,7 +1,6 @@
 import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Link, useParams } from "react-router";
-import { useState } from "react";
 import type {
   Category,
   ProductsQuery,
@@ -55,29 +54,37 @@ const ITEMS_PER_PAGE = 10;
 
 function Products() {
   const params = useParams() as { category: Category };
-  const [currentPage, setCurrentPage] = useState(1);
 
   const [variables, setVariables] = useHydratedVariables({
     category: reactive(params.category),
     sortBy: "title",
     order: "asc",
     limit: ITEMS_PER_PAGE,
-    skip: reactive((currentPage - 1) * ITEMS_PER_PAGE),
+    skip: 0,
   });
 
   const { category, sortBy, order } = variables;
 
-  const { loading, error, data } = useQuery(PRODUCTS, { variables });
+  const { loading, error, data, dataState } = useQuery(PRODUCTS, { variables });
 
   if (!category) {
     return <p>Invalid category</p>;
   }
 
-  const totalPages = Math.ceil((data?.products.total || 0) / ITEMS_PER_PAGE);
-  const categoryInfo = data?.categories.find((c) => c.slug === category);
-  const displayName = categoryInfo?.name || category;
+  if (error || dataState !== "complete") {
+    return <p>Error: {error ? error.message : "Could not fetch data"}</p>;
+  }
 
-  if (error) return <p>Error: {error.message}</p>;
+  const { categories, products } = data;
+  const limit = variables.limit ?? products.limit;
+  const totalPages = Math.ceil(products.total / limit);
+  const categoryInfo = categories.find((c) => c.slug === category);
+  const displayName = categoryInfo?.name || category;
+  const currentPage = Math.floor(products.skip / limit) + 1;
+
+  function getSkipForPage(page: number) {
+    return (page - 1) * limit;
+  }
 
   return (
     <>
@@ -96,8 +103,8 @@ function Products() {
 
       <div className="flex items-center justify-between mb-6">
         <p className="text-secondary">
-          Showing {loading ? "?" : data?.products.results.length || 0} of{" "}
-          {loading ? "?" : data?.products.total || 0} products
+          Showing {loading ? "?" : products.results.length || 0} of{" "}
+          {loading ? "?" : products.total || 0} products
         </p>
 
         <div className="flex items-center gap-4">
@@ -106,8 +113,7 @@ function Products() {
             <select
               value={sortBy ?? undefined}
               onChange={(e) => {
-                setVariables({ sortBy: e.target.value });
-                setCurrentPage(1);
+                setVariables({ sortBy: e.target.value, skip: 0 });
               }}
               className="border border-primary hover:border-primary-hover bg-input rounded px-2 py-1 transition-colors"
             >
@@ -122,8 +128,7 @@ function Products() {
             <select
               value={order ?? undefined}
               onChange={(e) => {
-                setVariables({ order: e.target.value as Order });
-                setCurrentPage(1);
+                setVariables({ order: e.target.value as Order, skip: 0 });
               }}
               className="border border-primary hover:border-primary-hover bg-input rounded px-2 py-1 transition-colors"
             >
@@ -139,7 +144,7 @@ function Products() {
           Array.from({ length: 9 }).map((_, index) => (
             <SkeletonTile key={index} />
           ))
-        : data?.products.results.map((product) => (
+        : products.results.map((product) => (
             <ProductTile key={product.id} product={product} />
           ))
         }
@@ -148,7 +153,9 @@ function Products() {
       {totalPages > 1 && (
         <div className="flex items-center justify-center gap-4 mt-4">
           <Button
-            onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+            onClick={() =>
+              setVariables({ skip: getSkipForPage(currentPage - 1) })
+            }
             disabled={currentPage === 1}
             variant="hidden"
             size="sm"
@@ -158,46 +165,43 @@ function Products() {
           </Button>
 
           <div className="flex items-center gap-1">
-            {Array.from({ length: 5 /* totalPages */ }, (_, i) => i + 1).map(
-              (page) => {
-                if (
-                  page === 1 ||
-                  page === totalPages ||
-                  (page >= currentPage - 1 && page <= currentPage + 1)
-                ) {
-                  return (
-                    <Button
-                      key={page}
-                      onClick={() => setCurrentPage(page)}
-                      className={
-                        page === currentPage ? "bg-selected text-white" : ""
-                      }
-                      variant="secondary"
-                      size="sm"
-                    >
-                      {page}
-                    </Button>
-                  );
-                } else if (
-                  page === currentPage - 2 ||
-                  page === currentPage + 2
-                ) {
-                  return (
-                    <span key={page} className="px-2">
-                      &hellip;
-                    </span>
-                  );
-                }
-                return null;
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+              if (
+                page === 1 ||
+                page === totalPages ||
+                (page >= currentPage - 1 && page <= currentPage + 1)
+              ) {
+                return (
+                  <Button
+                    key={page}
+                    onClick={() => setVariables({ skip: getSkipForPage(page) })}
+                    className={
+                      page === currentPage ? "bg-selected text-white" : ""
+                    }
+                    variant="secondary"
+                    size="sm"
+                  >
+                    {page}
+                  </Button>
+                );
+              } else if (page === currentPage - 2 || page === currentPage + 2) {
+                return (
+                  <span key={page} className="px-2">
+                    &hellip;
+                  </span>
+                );
               }
-            )}
+              return null;
+            })}
           </div>
 
           <Button
             onClick={() =>
-              setCurrentPage((prev) => Math.min(totalPages, prev + 1))
+              setVariables({
+                skip: getSkipForPage(Math.min(totalPages, currentPage + 1)),
+              })
             }
-            disabled={currentPage === totalPages}
+            disabled={currentPage >= totalPages}
             variant="hidden"
             size="sm"
             iconRight={ArrowRight}
