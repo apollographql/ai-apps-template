@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Button } from "./Button";
+import { Search } from "lucide-react";
 
 function SearchBar() {
   const [query, setQuery] = useState("");
@@ -23,7 +24,7 @@ function SearchBar() {
           placeholder="Search for products..."
           className="flex-1 px-4 py-2 h-12 rounded-lg border border-primary hover:border-primary-hover focus:outline-none focus:border-2 focus:border-focused bg-input transition-colors"
         />
-        <Button type="submit" size="lg" variant="primary">
+        <Button type="submit" size="lg" variant="primary" iconLeft={Search}>
           Search
         </Button>
       </div>
