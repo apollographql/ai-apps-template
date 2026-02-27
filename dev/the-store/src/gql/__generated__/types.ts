@@ -173,6 +173,22 @@ export type Review = {
   reviewerName: Scalars["String"]["output"];
 };
 
+export type CategoryTile_categoryFragment = {
+  __typename: "CategoryInfo";
+  image: string;
+  name: string;
+  slug: Category;
+} & { " $fragmentName"?: "CategoryTile_categoryFragment" };
+
+export type ProductTile_productFragment = {
+  __typename: "Product";
+  id: string;
+  thumbnail: string;
+  title: string;
+  rating: number;
+  price: number;
+} & { " $fragmentName"?: "ProductTile_productFragment" };
+
 export type UpdateCartItemQuantityMutationVariables = Exact<{
   cartItemId: Scalars["ID"]["input"];
   quantity: Scalars["Int"]["input"];
@@ -202,12 +218,34 @@ export type CartQuery = {
   }>;
 };
 
-export type CategoryTile_categoryFragment = {
-  __typename: "CategoryInfo";
-  image: string;
-  name: string;
-  slug: Category;
-} & { " $fragmentName"?: "CategoryTile_categoryFragment" };
+export type ProductsQueryVariables = Exact<{
+  category: Category;
+  sortBy?: InputMaybe<Scalars["String"]["input"]>;
+  order?: InputMaybe<Order>;
+  limit?: InputMaybe<Scalars["Int"]["input"]>;
+  skip?: InputMaybe<Scalars["Int"]["input"]>;
+}>;
+
+export type ProductsQuery = {
+  products: {
+    __typename: "ProductsResult";
+    limit: number;
+    skip: number;
+    total: number;
+    results: Array<
+      { __typename: "Product"; id: string } & {
+        " $fragmentRefs"?: {
+          ProductTile_productFragment: ProductTile_productFragment;
+        };
+      }
+    >;
+  };
+  categories: Array<{
+    __typename: "CategoryInfo";
+    name: string;
+    slug: Category;
+  }>;
+};
 
 export type TopProductsQueryVariables = Exact<{ [key: string]: never }>;
 
@@ -251,44 +289,6 @@ export type AddToCartMutationVariables = Exact<{
 
 export type AddToCartMutation = {
   addToCart: { __typename: "CartItem"; id: string };
-};
-
-export type ProductTile_productFragment = {
-  __typename: "Product";
-  id: string;
-  thumbnail: string;
-  title: string;
-  rating: number;
-  price: number;
-} & { " $fragmentName"?: "ProductTile_productFragment" };
-
-export type ProductsQueryVariables = Exact<{
-  category: Category;
-  sortBy?: InputMaybe<Scalars["String"]["input"]>;
-  order?: InputMaybe<Order>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  skip?: InputMaybe<Scalars["Int"]["input"]>;
-}>;
-
-export type ProductsQuery = {
-  products: {
-    __typename: "ProductsResult";
-    limit: number;
-    skip: number;
-    total: number;
-    results: Array<
-      { __typename: "Product"; id: string } & {
-        " $fragmentRefs"?: {
-          ProductTile_productFragment: ProductTile_productFragment;
-        };
-      }
-    >;
-  };
-  categories: Array<{
-    __typename: "CategoryInfo";
-    name: string;
-    slug: Category;
-  }>;
 };
 
 export type SearchQueryVariables = Exact<{
