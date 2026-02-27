@@ -32,7 +32,7 @@ export function ProductTile({ product }: Props) {
 
   return (
     <Link
-      to={`/product/${data.id}`}
+      to={`/products/${data.id}`}
       className="flex flex-col border border-primary rounded p-4 hover:bg-secondary transition-colors"
     >
       <img
