@@ -1,13 +1,13 @@
-import Home from "./Components/Home";
-import ProductDetail from "./Components/ProductDetail";
-import Products from "./Components/Products";
-import Cart from "./Components/Cart";
-import SearchBar from "./Components/SearchBar";
-import SearchResults from "./Components/SearchResults";
 import { MemoryRouter, Route, Routes } from "react-router";
 import { useToolInput, useToolName } from "@apollo/client-ai-apps/react";
 import { useState } from "react";
-import { MainHeader } from "./Components/MainHeader";
+import HomeRoute from "./routes/home";
+import ProductDetailRoute from "./routes/products.$id";
+import CategoryDetailRoute from "./routes/categories.$slug";
+import CartRoute from "./routes/cart";
+import SearchRoute from "./routes/search";
+import SearchBar from "./components/SearchBar";
+import { MainHeader } from "./components/MainHeader";
 
 function App() {
   const toolName = useToolName();
@@ -17,7 +17,7 @@ function App() {
   function getInitialRoute() {
     switch (toolName) {
       case "Top-Products":
-        return "/home";
+        return "/hom";
       case "Get-Product":
         return `/product/${toolInput?.id}`;
       case "View-Cart":
@@ -41,12 +41,15 @@ function App() {
         <MainHeader />
         <SearchBar />
         <Routes>
-          <Route index element={<div>Loading...</div>} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/product/:id" element={<ProductDetail />} />
-          <Route path="/products/:category" element={<Products />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/search" element={<SearchResults />} />
+          <Route path="/home" element={<HomeRoute />} />
+          <Route path="/products/:id" element={<ProductDetailRoute />} />
+          <Route
+            path="/categories/:category"
+            element={<CategoryDetailRoute />}
+          />
+          <Route path="/cart" element={<CartRoute />} />
+          <Route path="/search" element={<SearchRoute />} />
+          <Route path="*" element={<div>Not found</div>} />
         </Routes>
       </div>
     </MemoryRouter>

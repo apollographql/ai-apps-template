@@ -8,9 +8,9 @@ import type {
   ProductsQueryVariables,
 } from "@/gql/types";
 import { createHydrationUtils, reactive } from "@apollo/client-ai-apps/react";
-import { ProductTile } from "./ProductTile";
-import { SkeletonTile } from "./SkeletonTile";
-import { Button } from "./Button";
+import { ProductTile } from "@/components/ProductTile";
+import { SkeletonTile } from "@/components/SkeletonTile";
+import { Button } from "@/components/Button";
 import { ArrowLeft, ArrowRight, ChevronRight } from "lucide-react";
 
 const PRODUCTS: TypedDocumentNode<ProductsQuery, ProductsQueryVariables> = gql`

@@ -2,10 +2,10 @@ import { useApp } from "@apollo/client-ai-apps/react";
 import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import type { TopProductsQuery, TopProductsQueryVariables } from "@/gql/types";
-import { ProductTile } from "./ProductTile";
-import { Button } from "./Button";
-import { CategoryTile } from "./CategoryTile";
-import { Spinner } from "./Spinner";
+import { ProductTile } from "@/components/ProductTile";
+import { Button } from "@/components/Button";
+import { CategoryTile } from "@/components/CategoryTile";
+import { Spinner } from "@/components/Spinner";
 
 const TOP_PRODUCTS: TypedDocumentNode<
   TopProductsQuery,

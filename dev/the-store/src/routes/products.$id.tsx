@@ -9,8 +9,8 @@ import { createHydrationUtils, reactive } from "@apollo/client-ai-apps/react";
 import { useQuery, useMutation } from "@apollo/client/react";
 import { ArrowLeft, ShoppingCart } from "lucide-react";
 import { useParams, Link, useNavigate } from "react-router";
-import { Rating } from "./Rating";
-import { Button } from "./Button";
+import { Rating } from "@/components/Rating";
+import { Button } from "@/components/Button";
 
 const GET_PRODUCT: TypedDocumentNode<ProductQuery, ProductQueryVariables> = gql`
   query Product($id: ID!)

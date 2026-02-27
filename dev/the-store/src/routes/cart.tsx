@@ -8,7 +8,7 @@ import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useMutation, useQuery } from "@apollo/client/react";
 import { ArrowLeft, Plus, Minus } from "lucide-react";
 import { Link } from "react-router";
-import { Button } from "./Button";
+import { Button } from "@/components/Button";
 
 const UPDATE_CART_ITEM_QUANTITY: TypedDocumentNode<
   UpdateCartItemQuantityMutation,

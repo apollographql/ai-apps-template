@@ -3,7 +3,7 @@ import { gql, type TypedDocumentNode } from "@apollo/client";
 import { createHydrationUtils, reactive } from "@apollo/client-ai-apps/react";
 import { useQuery } from "@apollo/client/react";
 import { useSearchParams } from "react-router";
-import { ProductTile } from "./ProductTile";
+import { ProductTile } from "@/components/ProductTile";
 
 const SEARCH_QUERY: TypedDocumentNode<SearchQuery, SearchQueryVariables> = gql`
   query SearchQuery($query: String!)

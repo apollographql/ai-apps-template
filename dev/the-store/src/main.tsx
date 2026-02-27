@@ -7,7 +7,7 @@ import "./index.css";
 import App from "./App.tsx";
 import manifest from "../.application-manifest.json";
 import { fragments } from "./apollo/fragmentRegistry.ts";
-import { Spinner } from "./Components/Spinner.tsx";
+import { Spinner } from "./components/Spinner.tsx";
 
 const cache = new InMemoryCache({
   fragments,
