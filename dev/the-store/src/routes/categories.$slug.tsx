@@ -152,66 +152,76 @@ function Products() {
       </div>
 
       {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-4 mt-4">
-          <Button
-            onClick={() =>
-              setVariables({ skip: getSkipForPage(currentPage - 1) })
-            }
-            disabled={currentPage === 1}
-            variant="hidden"
-            size="sm"
-            iconLeft={ArrowLeft}
-          >
-            Previous
-          </Button>
-
-          <div className="flex items-center gap-1">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
-              if (
-                page === 1 ||
-                page === totalPages ||
-                (page >= currentPage - 1 && page <= currentPage + 1)
-              ) {
-                return (
-                  <Button
-                    key={page}
-                    onClick={() => setVariables({ skip: getSkipForPage(page) })}
-                    className={
-                      page === currentPage ? "bg-selected text-white" : ""
-                    }
-                    variant="secondary"
-                    size="sm"
-                  >
-                    {page}
-                  </Button>
-                );
-              } else if (page === currentPage - 2 || page === currentPage + 2) {
-                return (
-                  <span key={page} className="px-2">
-                    &hellip;
-                  </span>
-                );
-              }
-              return null;
-            })}
-          </div>
-
-          <Button
-            onClick={() =>
-              setVariables({
-                skip: getSkipForPage(Math.min(totalPages, currentPage + 1)),
-              })
-            }
-            disabled={currentPage >= totalPages}
-            variant="hidden"
-            size="sm"
-            iconRight={ArrowRight}
-          >
-            Next
-          </Button>
-        </div>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onChangePage={(page) => setVariables({ skip: getSkipForPage(page) })}
+        />
       )}
     </>
+  );
+}
+
+function Pagination({
+  currentPage,
+  totalPages,
+  onChangePage,
+}: {
+  currentPage: number;
+  totalPages: number;
+  onChangePage: (page: number) => void;
+}) {
+  return (
+    <div className="flex items-center justify-center gap-4 mt-4">
+      <Button
+        onClick={() => onChangePage(Math.max(1, currentPage - 1))}
+        disabled={currentPage === 1}
+        variant="hidden"
+        size="sm"
+        iconLeft={ArrowLeft}
+      >
+        Previous
+      </Button>
+
+      <div className="flex items-center gap-1">
+        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+          if (
+            page === 1 ||
+            page === totalPages ||
+            (page >= currentPage - 1 && page <= currentPage + 1)
+          ) {
+            return (
+              <Button
+                key={page}
+                onClick={() => onChangePage(page)}
+                className={page === currentPage ? "bg-selected text-white" : ""}
+                variant="secondary"
+                size="sm"
+              >
+                {page}
+              </Button>
+            );
+          } else if (page === currentPage - 2 || page === currentPage + 2) {
+            return (
+              <span key={page} className="px-2">
+                &hellip;
+              </span>
+            );
+          }
+          return null;
+        })}
+      </div>
+
+      <Button
+        onClick={() => onChangePage(Math.min(totalPages, currentPage + 1))}
+        disabled={currentPage >= totalPages}
+        variant="hidden"
+        size="sm"
+        iconRight={ArrowRight}
+      >
+        Next
+      </Button>
+    </div>
   );
 }
 
