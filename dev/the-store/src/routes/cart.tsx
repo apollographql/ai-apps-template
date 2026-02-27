@@ -4,7 +4,7 @@ import type {
   UpdateCartItemQuantityMutation,
   UpdateCartItemQuantityMutationVariables,
 } from "@/gql/types";
-import { gql, type TypedDocumentNode } from "@apollo/client";
+import { gql, NetworkStatus, type TypedDocumentNode } from "@apollo/client";
 import { useApolloClient, useQuery } from "@apollo/client/react";
 import { ArrowLeft, Plus, Minus } from "lucide-react";
 import { Link } from "react-router";
@@ -48,7 +48,7 @@ const GET_CART: TypedDocumentNode<CartQuery, CartQueryVariables> = gql`
 
 function Cart() {
   const client = useApolloClient();
-  const { loading, error, data } = useQuery(GET_CART, {
+  const { error, data, networkStatus } = useQuery(GET_CART, {
     fetchPolicy: "network-only",
   });
 
@@ -66,6 +66,7 @@ function Cart() {
           quantity,
         },
       },
+      refetchQueries: ["CartQuery"],
     });
   };
 
@@ -85,7 +86,7 @@ function Cart() {
 
       <h1 className="text-3xl font-bold mb-2">Your Cart</h1>
 
-      {loading ?
+      {networkStatus === NetworkStatus.loading ?
         <PageSpinner />
       : cartItems.length === 0 ?
         <p className="text-neutral">Your cart is empty</p>
