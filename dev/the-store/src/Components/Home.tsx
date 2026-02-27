@@ -5,6 +5,7 @@ import type { TopProductsQuery, TopProductsQueryVariables } from "@/gql/types";
 import { ProductTile } from "./ProductTile";
 import { Button } from "./Button";
 import { CategoryTile } from "./CategoryTile";
+import { Spinner } from "./Spinner";
 
 const TOP_PRODUCTS: TypedDocumentNode<
   TopProductsQuery,
@@ -31,7 +32,6 @@ function App() {
   const app = useApp();
   const { loading, error, data } = useQuery(TOP_PRODUCTS);
 
-  if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message}</p>;
 
   return (
@@ -55,18 +55,25 @@ function App() {
           ✨ Inspire me
         </Button>
       </div>
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(192px,1fr))] gap-4 mb-8">
-        {data?.topProducts.map((product) => (
-          <ProductTile key={product.id} product={product} />
-        ))}
-      </div>
+      {loading ?
+        <div className="min-h-52 flex items-center justify-center">
+          <Spinner className="size-10" />
+        </div>
+      : <>
+          <div className="grid grid-cols-[repeat(3,minmax(192px,1fr))] gap-4 mb-8">
+            {data?.topProducts.map((product) => (
+              <ProductTile key={product.id} product={product} />
+            ))}
+          </div>
 
-      <h2 className="text-2xl font-bold mb-4">Shop by Category</h2>
-      <div className="grid grid-cols-3 gap-4">
-        {data?.categories.map((category) => (
-          <CategoryTile key={category.slug} category={category} />
-        ))}
-      </div>
+          <h2 className="text-2xl font-bold mb-4">Shop by Category</h2>
+          <div className="grid grid-cols-3 gap-4">
+            {data?.categories.map((category) => (
+              <CategoryTile key={category.slug} category={category} />
+            ))}
+          </div>
+        </>
+      }
     </>
   );
 }
