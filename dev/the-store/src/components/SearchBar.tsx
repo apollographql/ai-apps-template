@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import { Button } from "./Button";
 import { Search } from "lucide-react";
 
 function SearchBar() {
-  const [query, setQuery] = useState("");
+  const [searchParams] = useSearchParams();
+  const [query, setQuery] = useState(searchParams.get("q") ?? "");
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
