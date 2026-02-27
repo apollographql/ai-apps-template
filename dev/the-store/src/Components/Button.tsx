@@ -1,9 +1,11 @@
-import type { ComponentPropsWithoutRef } from "react";
+import type { ComponentPropsWithoutRef, ElementType } from "react";
 import { clsx } from "clsx";
 
 interface Props extends ComponentPropsWithoutRef<"button"> {
   variant: "primary" | "secondary" | "hidden";
   size?: "lg" | "md" | "sm";
+  iconLeft?: ElementType<{ className?: string; size: number }>;
+  iconRight?: ElementType<{ className?: string; size: number }>;
 }
 
 export function Button({
@@ -11,6 +13,8 @@ export function Button({
   className,
   variant,
   size = "md",
+  iconLeft: IconLeft,
+  iconRight: IconRight,
   ...props
 }: Props) {
   return (
@@ -30,7 +34,33 @@ export function Button({
         className
       )}
     >
+      {IconLeft && (
+        <IconLeft
+          size={iconSize(size)}
+          className={
+            props.disabled ? "text-icon-disabled" : "text-icon-primary"
+          }
+        />
+      )}
       {children}
+      {IconRight && (
+        <IconRight
+          size={iconSize(size)}
+          className={
+            props.disabled ? "text-icon-disabled" : "text-icon-primary"
+          }
+        />
+      )}
     </button>
   );
+}
+
+function iconSize(buttonSize: NonNullable<Props["size"]>) {
+  switch (buttonSize) {
+    case "lg":
+      return 24;
+    case "md":
+    case "sm":
+      return 16;
+  }
 }
