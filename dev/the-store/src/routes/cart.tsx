@@ -5,7 +5,7 @@ import type {
   UpdateCartItemQuantityMutationVariables,
 } from "@/gql/types";
 import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useMutation, useQuery } from "@apollo/client/react";
+import { useApolloClient, useQuery } from "@apollo/client/react";
 import { ArrowLeft, Plus, Minus } from "lucide-react";
 import { Link } from "react-router";
 import { Button } from "@/components/Button";
@@ -47,24 +47,19 @@ const GET_CART: TypedDocumentNode<CartQuery, CartQueryVariables> = gql`
 `;
 
 function Cart() {
+  const client = useApolloClient();
   const { loading, error, data } = useQuery(GET_CART, {
     fetchPolicy: "network-only",
   });
-  const [updateQuantity] = useMutation(UPDATE_CART_ITEM_QUANTITY, {
-    refetchQueries: ["CartQuery"],
-  });
 
-  const handleQuantityChange = (
-    itemId: string,
-    currentQuantity: number,
-    delta: number
-  ) => {
-    const newQuantity = currentQuantity + delta;
-    updateQuantity({
+  const handleQuantityChange = (itemId: string, quantity: number) => {
+    client.mutate({
+      mutation: UPDATE_CART_ITEM_QUANTITY,
       variables: {
         cartItemId: itemId,
-        quantity: newQuantity,
+        quantity,
       },
+      refetchQueries: ["CartQuery"],
     });
   };
 
@@ -105,7 +100,7 @@ function Cart() {
                   <div className="flex items-center gap-2 mt-1">
                     <Button
                       onClick={() =>
-                        handleQuantityChange(item.id, item.quantity, -1)
+                        handleQuantityChange(item.id, item.quantity - 1)
                       }
                       variant="secondary"
                       size="sm"
@@ -114,7 +109,7 @@ function Cart() {
                     <span className="w-4 text-center">{item.quantity}</span>
                     <Button
                       onClick={() =>
-                        handleQuantityChange(item.id, item.quantity, 1)
+                        handleQuantityChange(item.id, item.quantity + 1)
                       }
                       variant="secondary"
                       size="sm"
