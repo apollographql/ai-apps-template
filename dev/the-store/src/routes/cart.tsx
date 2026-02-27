@@ -4,9 +4,12 @@ import type {
   UpdateCartItemQuantityMutation,
   UpdateCartItemQuantityMutationVariables,
 } from "@/gql/types";
-import { gql, type TypedDocumentNode } from "@apollo/client";
-import { useMutation, useQuery } from "@apollo/client/react";
+import { gql, NetworkStatus, type TypedDocumentNode } from "@apollo/client";
+import { useApolloClient, useQuery } from "@apollo/client/react";
+import { ArrowLeft, Plus, Minus } from "lucide-react";
 import { Link } from "react-router";
+import { Button } from "@/components/Button";
+import { PageSpinner } from "@/components/PageSpinner";
 
 const UPDATE_CART_ITEM_QUANTITY: TypedDocumentNode<
   UpdateCartItemQuantityMutation,
@@ -34,6 +37,7 @@ const GET_CART: TypedDocumentNode<CartQuery, CartQueryVariables> = gql`
       id
       quantity
       product {
+        id
         price
         thumbnail
         title
@@ -43,28 +47,29 @@ const GET_CART: TypedDocumentNode<CartQuery, CartQueryVariables> = gql`
 `;
 
 function Cart() {
-  const { loading, error, data } = useQuery(GET_CART, {
+  const client = useApolloClient();
+  const { error, data, networkStatus } = useQuery(GET_CART, {
     fetchPolicy: "network-only",
   });
-  const [updateQuantity] = useMutation(UPDATE_CART_ITEM_QUANTITY, {
-    refetchQueries: ["CartQuery"],
-  });
 
-  const handleQuantityChange = (
-    itemId: string,
-    currentQuantity: number,
-    delta: number
-  ) => {
-    const newQuantity = currentQuantity + delta;
-    updateQuantity({
+  const handleQuantityChange = (itemId: string, quantity: number) => {
+    client.mutate({
+      mutation: UPDATE_CART_ITEM_QUANTITY,
       variables: {
         cartItemId: itemId,
-        quantity: newQuantity,
+        quantity,
       },
+      optimisticResponse: {
+        updateCartItemQuantity: {
+          __typename: "CartItem",
+          id: itemId,
+          quantity,
+        },
+      },
+      refetchQueries: ["CartQuery"],
     });
   };
 
-  if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
   const cartItems = data?.cart || [];
@@ -74,24 +79,23 @@ function Cart() {
   );
 
   return (
-    <div className="max-w-4xl mx-auto p-4">
-      <Link
-        to="/home"
-        className="text-blue-500 hover:underline mb-4 inline-block"
-      >
-        &larr; Back to Products
+    <div>
+      <Link to="/home" className="flex gap-1 items-center hover:underline mb-4">
+        <ArrowLeft size={16} className="text-icon-primary" /> Back to Products
       </Link>
 
-      <h1 className="text-3xl font-bold mb-4">Your Cart</h1>
+      <h1 className="text-3xl font-bold mb-2">Your Cart</h1>
 
-      {cartItems.length === 0 ?
-        <p className="text-gray-500">Your cart is empty.</p>
+      {networkStatus === NetworkStatus.loading ?
+        <PageSpinner />
+      : cartItems.length === 0 ?
+        <p className="text-neutral">Your cart is empty</p>
       : <>
-          <div className="space-y-4">
+          <div className="flex flex-col gap-4">
             {cartItems.map((item) => (
               <div
                 key={item.id}
-                className="flex items-center gap-4 p-4 border rounded"
+                className="flex items-center gap-4 p-4 border border-primary rounded-lg"
               >
                 <img
                   src={item.product.thumbnail}
@@ -101,37 +105,35 @@ function Cart() {
                 <div className="flex-1">
                   <h2 className="font-semibold">{item.product.title}</h2>
                   <div className="flex items-center gap-2 mt-1">
-                    <button
+                    <Button
                       onClick={() =>
-                        handleQuantityChange(item.id, item.quantity, -1)
+                        handleQuantityChange(item.id, item.quantity - 1)
                       }
-                      className="w-8 h-8 flex items-center justify-center bg-gray-200 hover:bg-gray-300 rounded text-lg font-bold"
-                    >
-                      -
-                    </button>
-                    <span className="text-gray-600 w-8 text-center">
-                      {item.quantity}
-                    </span>
-                    <button
+                      variant="secondary"
+                      size="sm"
+                      iconLeft={Minus}
+                    />
+                    <span className="w-4 text-center">{item.quantity}</span>
+                    <Button
                       onClick={() =>
-                        handleQuantityChange(item.id, item.quantity, 1)
+                        handleQuantityChange(item.id, item.quantity + 1)
                       }
-                      className="w-8 h-8 flex items-center justify-center bg-gray-200 hover:bg-gray-300 rounded text-lg font-bold"
-                    >
-                      +
-                    </button>
+                      variant="secondary"
+                      size="sm"
+                      iconLeft={Plus}
+                    />
                   </div>
                 </div>
-                <p className="text-green-600 font-bold">
+                <p className="font-bold">
                   ${(item.product.price * item.quantity).toFixed(2)}
                 </p>
               </div>
             ))}
           </div>
 
-          <div className="mt-6 pt-4 border-t">
+          <div className="mt-6 pt-4 border-t border-t-primary">
             <p className="text-xl font-bold text-right">
-              Total: <span className="text-green-600">${total.toFixed(2)}</span>
+              Total: <span>${total.toFixed(2)}</span>
             </p>
           </div>
         </>

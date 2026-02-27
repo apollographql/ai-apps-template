@@ -7,7 +7,10 @@ import type {
 import { gql, type TypedDocumentNode } from "@apollo/client";
 import { createHydrationUtils, reactive } from "@apollo/client-ai-apps/react";
 import { useQuery, useMutation } from "@apollo/client/react";
+import { ArrowLeft, ShoppingCart } from "lucide-react";
 import { useParams, Link, useNavigate } from "react-router";
+import { Rating } from "@/components/Rating";
+import { Button } from "@/components/Button";
 
 const GET_PRODUCT: TypedDocumentNode<ProductQuery, ProductQueryVariables> = gql`
   query Product($id: ID!)
@@ -76,15 +79,12 @@ function ProductDetail() {
   const product = data.product;
 
   return (
-    <div className="max-w-4xl mx-auto p-4">
-      <Link
-        to="/home"
-        className="text-blue-500 hover:underline mb-4 inline-block"
-      >
-        &larr; Back to Products
+    <div>
+      <Link to="/home" className="flex gap-1 items-center hover:underline mb-4">
+        <ArrowLeft size={16} className="text-icon-primary" /> Back to Products
       </Link>
 
-      <h1 className="text-3xl font-bold mb-4">{product.title}</h1>
+      <h1 className="text-3xl font-bold mb-2">{product.title}</h1>
 
       <div className="flex flex-col md:flex-row gap-6">
         <div className="flex-1">
@@ -136,8 +136,8 @@ function ProductDetail() {
         </div>
 
         <div className="flex-1">
-          <p className="text-gray-600 mb-2">⭐ {product.rating}</p>
-          <p className="text-green-600 font-bold text-2xl mb-4">
+          <Rating rating={product.rating ?? 0} />
+          <p className="font-bold text-2xl mb-4">
             ${product.price?.toFixed(2)}
           </p>
           {product.description ?
@@ -148,13 +148,15 @@ function ProductDetail() {
               <div className="h-4 bg-gray-200 rounded w-3/4"></div>
             </div>
           }
-          <button
+          <Button
             onClick={handleAddToCart}
             disabled={addingToCart}
-            className="bg-blue-500 hover:bg-blue-600 disabled:bg-blue-300 text-white font-bold py-2 px-4 rounded"
+            variant="primary"
+            size="lg"
+            iconLeft={ShoppingCart}
           >
             {addingToCart ? "Adding..." : "Add to Cart"}
-          </button>
+          </Button>
         </div>
       </div>
     </div>

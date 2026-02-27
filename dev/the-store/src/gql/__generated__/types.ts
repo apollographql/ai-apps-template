@@ -80,12 +80,12 @@ export type Mutation = {
   updateCartItemQuantity: Maybe<CartItem>;
 };
 
-export type MutationAddToCartArgs = {
+export type MutationaddToCartArgs = {
   productId: Scalars["ID"]["input"];
   quantity: Scalars["Int"]["input"];
 };
 
-export type MutationUpdateCartItemQuantityArgs = {
+export type MutationupdateCartItemQuantityArgs = {
   id: Scalars["ID"]["input"];
   quantity: Scalars["Int"]["input"];
 };
@@ -144,11 +144,11 @@ export type Query = {
   topProducts: Array<Product>;
 };
 
-export type QueryProductArgs = {
+export type QueryproductArgs = {
   id: Scalars["ID"]["input"];
 };
 
-export type QueryProductsArgs = {
+export type QueryproductsArgs = {
   category: Category;
   limit?: InputMaybe<Scalars["Int"]["input"]>;
   order?: InputMaybe<Order>;
@@ -156,11 +156,11 @@ export type QueryProductsArgs = {
   sortBy?: InputMaybe<Scalars["String"]["input"]>;
 };
 
-export type QuerySearchArgs = {
+export type QuerysearchArgs = {
   query: Scalars["String"]["input"];
 };
 
-export type QueryTopProductsArgs = {
+export type QuerytopProductsArgs = {
   category?: InputMaybe<Category>;
 };
 
@@ -172,6 +172,22 @@ export type Review = {
   reviewerEmail: Scalars["String"]["output"];
   reviewerName: Scalars["String"]["output"];
 };
+
+export type CategoryTile_categoryFragment = {
+  __typename: "CategoryInfo";
+  image: string;
+  name: string;
+  slug: Category;
+} & { " $fragmentName"?: "CategoryTile_categoryFragment" };
+
+export type ProductTile_productFragment = {
+  __typename: "Product";
+  id: string;
+  thumbnail: string;
+  title: string;
+  rating: number;
+  price: number;
+} & { " $fragmentName"?: "ProductTile_productFragment" };
 
 export type UpdateCartItemQuantityMutationVariables = Exact<{
   cartItemId: Scalars["ID"]["input"];
@@ -202,23 +218,52 @@ export type CartQuery = {
   }>;
 };
 
-export type TopProductsQueryVariables = Exact<{ [key: string]: never }>;
+export type ProductsQueryVariables = Exact<{
+  category: Category;
+  sortBy?: InputMaybe<Scalars["String"]["input"]>;
+  order?: InputMaybe<Order>;
+  limit?: InputMaybe<Scalars["Int"]["input"]>;
+  skip?: InputMaybe<Scalars["Int"]["input"]>;
+}>;
 
-export type TopProductsQuery = {
-  topProducts: Array<{
-    __typename: "Product";
-    id: string;
-    title: string;
-    rating: number;
-    price: number;
-    thumbnail: string;
-  }>;
+export type ProductsQuery = {
+  products: {
+    __typename: "ProductsResult";
+    limit: number;
+    skip: number;
+    total: number;
+    results: Array<
+      { __typename: "Product"; id: string } & {
+        " $fragmentRefs"?: {
+          ProductTile_productFragment: ProductTile_productFragment;
+        };
+      }
+    >;
+  };
   categories: Array<{
     __typename: "CategoryInfo";
-    image: string;
     name: string;
     slug: Category;
   }>;
+};
+
+export type TopProductsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TopProductsQuery = {
+  topProducts: Array<
+    { __typename: "Product"; id: string } & {
+      " $fragmentRefs"?: {
+        ProductTile_productFragment: ProductTile_productFragment;
+      };
+    }
+  >;
+  categories: Array<
+    { __typename: "CategoryInfo"; slug: Category } & {
+      " $fragmentRefs"?: {
+        CategoryTile_categoryFragment: CategoryTile_categoryFragment;
+      };
+    }
+  >;
 };
 
 export type ProductQueryVariables = Exact<{
@@ -246,47 +291,16 @@ export type AddToCartMutation = {
   addToCart: { __typename: "CartItem"; id: string };
 };
 
-export type ProductsQueryVariables = Exact<{
-  category: Category;
-  sortBy?: InputMaybe<Scalars["String"]["input"]>;
-  order?: InputMaybe<Order>;
-  limit?: InputMaybe<Scalars["Int"]["input"]>;
-  skip?: InputMaybe<Scalars["Int"]["input"]>;
-}>;
-
-export type ProductsQuery = {
-  products: {
-    __typename: "ProductsResult";
-    limit: number;
-    skip: number;
-    total: number;
-    results: Array<{
-      __typename: "Product";
-      id: string;
-      title: string;
-      rating: number;
-      price: number;
-      thumbnail: string;
-    }>;
-  };
-  categories: Array<{
-    __typename: "CategoryInfo";
-    name: string;
-    slug: Category;
-  }>;
-};
-
 export type SearchQueryVariables = Exact<{
   query: Scalars["String"]["input"];
 }>;
 
 export type SearchQuery = {
-  search: Array<{
-    __typename: "Product";
-    id: string;
-    title: string;
-    rating: number;
-    price: number;
-    thumbnail: string;
-  }>;
+  search: Array<
+    { __typename: "Product"; id: string } & {
+      " $fragmentRefs"?: {
+        ProductTile_productFragment: ProductTile_productFragment;
+      };
+    }
+  >;
 };

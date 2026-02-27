@@ -23,6 +23,7 @@ export default defineConfig({
       "@/gql/types": fileURLToPath(
         new URL("./src/gql/__generated__/types.ts", import.meta.url)
       ),
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
   plugins: [

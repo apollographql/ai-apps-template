@@ -33,6 +33,15 @@ const config: CodegenConfig = {
         // Avoid adding an operation suffix to avoid double `QueryQuery` names
         // for operations that already contain the operation suffix
         dedupeOperationSuffix: true,
+        // Apply data masking
+        inlineFragmentTypes: "mask",
+        // Handle @unmask directive if applied
+        customDirectives: {
+          apolloUnmask: true,
+        },
+        namingConvention: {
+          typeNames: "keep",
+        },
       },
     },
   },

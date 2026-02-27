@@ -5,7 +5,7 @@
     "useDefineForClassFields": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
-    "types": ["vite/client"],
+    "types": ["vite/client", "./apollo.d.ts"],
     "skipLibCheck": true,
 
     /* Bundler mode */
@@ -24,7 +24,8 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
     "paths": {
-      "@/gql/types": ["./src/gql/__generated__/types.ts"]
+      "@/gql/types": ["./src/gql/__generated__/types.ts"],
+      "@/*": ["./src/*"]
     }
   }
 }

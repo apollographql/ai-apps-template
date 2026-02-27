@@ -6,8 +6,11 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
 import manifest from "../.application-manifest.json";
+import { fragments } from "./apollo/fragmentRegistry.ts";
+import { PageSpinner } from "./components/PageSpinner.tsx";
 
 const cache = new InMemoryCache({
+  fragments,
   typePolicies: {
     Query: {
       fields: {
@@ -30,11 +33,12 @@ const cache = new InMemoryCache({
 const client = new ApolloClient({
   cache,
   manifest: manifest as ApplicationManifest,
+  dataMasking: true,
 });
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<PageSpinner />}>
       <ApolloProvider client={client}>
         <App />
       </ApolloProvider>
