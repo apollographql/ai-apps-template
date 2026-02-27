@@ -37,6 +37,7 @@ const GET_CART: TypedDocumentNode<CartQuery, CartQueryVariables> = gql`
       id
       quantity
       product {
+        id
         price
         thumbnail
         title
