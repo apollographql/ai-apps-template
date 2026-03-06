@@ -11,7 +11,6 @@ const target = devTarget(process.env.TARGET);
 // https://vite.dev/config/
 export default defineConfig({
   build: {
-    outDir: "../../apps/the-store",
     emptyOutDir: true,
     watch:
       process.argv.includes("--watch") ?
@@ -30,6 +29,7 @@ export default defineConfig({
     apolloClientAiApps({
       targets: ["mcp", "openai"],
       devTarget: target,
+      appsOutDir: "../../apps",
     }),
     react(),
     tailwindcss(),
