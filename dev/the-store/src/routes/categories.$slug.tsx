@@ -13,7 +13,7 @@ import { Button } from "@/components/Button";
 import { ArrowLeft, ArrowRight, ChevronRight } from "lucide-react";
 
 const PRODUCTS: TypedDocumentNode<ProductsQuery, ProductsQueryVariables> = gql`
-  query Products(
+  query BrowseProducts(
     $category: Category!
     $sortBy: String
     $order: Order
@@ -21,7 +21,6 @@ const PRODUCTS: TypedDocumentNode<ProductsQuery, ProductsQueryVariables> = gql`
     $skip: Int
   )
   @tool(
-    name: "Browse-Products"
     description: "Shows products in a specific category with sorting and pagination options."
   ) {
     products(

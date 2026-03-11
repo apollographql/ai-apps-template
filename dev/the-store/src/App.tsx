@@ -16,17 +16,17 @@ function App() {
 
   function getInitialRoute() {
     switch (toolInfo?.toolName) {
-      case "Top-Products":
+      case "TopProducts":
         return "/home";
-      case "Get-Product":
+      case "GetProduct":
         return `/products/${toolInfo.toolInput.id}`;
-      case "View-Cart":
-      case "Update-cart-item-quantity":
-      case "Add-to-Cart":
+      case "ViewCart":
+      case "UpdateCartItemQuantity":
+      case "AddToCart":
         return "/cart";
-      case "Search-Products":
+      case "SearchProducts":
         return `/search?q=${encodeURIComponent(toolInfo.toolInput.query)}`;
-      case "Browse-Products":
+      case "BrowseProducts":
         return `/categories/${toolInfo.toolInput.category}`;
       default: {
         // @ts-expect-error Fallthrough case for `toolInfo` which should be
