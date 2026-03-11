@@ -7,11 +7,8 @@ import { ProductTile } from "@/components/ProductTile";
 import { SkeletonTile } from "@/components/SkeletonTile";
 
 const SEARCH_QUERY: TypedDocumentNode<SearchQuery, SearchQueryVariables> = gql`
-  query SearchQuery($query: String!)
-  @tool(
-    name: "Search-Products"
-    description: "Searches for products based on a search query."
-  ) {
+  query SearchProducts($query: String!)
+  @tool(description: "Searches for products based on a search query.") {
     search(query: $query) {
       id
       ...ProductTile_product

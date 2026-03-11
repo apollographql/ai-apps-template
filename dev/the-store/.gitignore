@@ -11,6 +11,7 @@ node_modules
 dist
 dist-ssr
 *.local
+.apollo-client-ai-apps
 
 # Editor directories and files
 .vscode/*

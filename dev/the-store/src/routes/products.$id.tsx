@@ -13,11 +13,8 @@ import { Rating } from "@/components/Rating";
 import { Button } from "@/components/Button";
 
 const GET_PRODUCT: TypedDocumentNode<ProductQuery, ProductQueryVariables> = gql`
-  query Product($id: ID!)
-  @tool(
-    name: "Get-Product"
-    description: "Shows the details page for a specific product."
-  ) {
+  query GetProduct($id: ID!)
+  @tool(description: "Shows the details page for a specific product.") {
     product(id: $id) {
       id
       title
@@ -34,10 +31,7 @@ const ADD_TO_CART: TypedDocumentNode<
   AddToCartMutationVariables
 > = gql`
   mutation AddToCart($productId: ID!, $quantity: Int!)
-  @tool(
-    name: "Add-to-Cart"
-    description: "Adds a product to the users shopping cart."
-  ) {
+  @tool(description: "Adds a product to the users shopping cart.") {
     addToCart(productId: $productId, quantity: $quantity) {
       id
     }

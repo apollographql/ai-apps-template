@@ -1,5 +1,5 @@
 import { MemoryRouter, Route, Routes } from "react-router";
-import { useToolInput, useToolName } from "@apollo/client-ai-apps/react";
+import { useToolInfo } from "@apollo/client-ai-apps/react";
 import { useState } from "react";
 import HomeRoute from "./routes/home";
 import ProductDetailRoute from "./routes/products.$id";
@@ -11,26 +11,28 @@ import NotFound from "./routes/$";
 import { MainHeader } from "./components/MainHeader";
 
 function App() {
-  const toolName = useToolName();
-  const toolInput = useToolInput();
+  const toolInfo = useToolInfo();
   const [initialRoute] = useState(getInitialRoute);
 
   function getInitialRoute() {
-    switch (toolName) {
-      case "Top-Products":
+    switch (toolInfo?.toolName) {
+      case "TopProducts":
         return "/home";
-      case "Get-Product":
-        return `/products/${toolInput?.id}`;
-      case "View-Cart":
-      case "Update-cart-item-quantity":
-      case "Add-to-Cart":
+      case "GetProduct":
+        return `/products/${toolInfo.toolInput.id}`;
+      case "ViewCart":
+      case "UpdateCartItemQuantity":
+      case "AddToCart":
         return "/cart";
-      case "Search-Products":
-        return `/search?q=${encodeURIComponent(toolInput?.query as string)}`;
-      case "Browse-Products":
-        return `/categories/${toolInput?.category}`;
+      case "SearchProducts":
+        return `/search?q=${encodeURIComponent(toolInfo.toolInput.query)}`;
+      case "BrowseProducts":
+        return `/categories/${toolInfo.toolInput.category}`;
       default: {
-        console.warn(`Unable to match route for tool '${toolName}`);
+        // @ts-expect-error Fallthrough case for `toolInfo` which should be
+        // `never`. If expect-error is reported as unused, it means there is a
+        // missing case above.
+        console.warn(`Unable to match route for tool '${toolInfo?.toolName}`);
         return "/";
       }
     }

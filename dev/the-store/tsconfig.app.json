@@ -1,5 +1,5 @@
 {
   "extends": ["@apollo/client-ai-apps/tsconfig/core", "./tsconfig.base.json"],
-  "include": ["src"],
+  "include": ["src", ".apollo-client-ai-apps/types"],
   "exclude": ["src/**/*.mcp.*", "src/**/*.openai.*"]
 }

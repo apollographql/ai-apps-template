@@ -30,6 +30,7 @@ export default defineConfig({
       targets: ["mcp", "openai"],
       devTarget: target,
       appsOutDir: "../../apps",
+      schema: "../../schema.graphql",
     }),
     react(),
     tailwindcss(),
