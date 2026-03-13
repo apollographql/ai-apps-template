@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@apollo/client": "^4.1.6",
-    "@apollo/client-ai-apps": "^0.6.2",
+    "@apollo/client-ai-apps": "^0.6.3",
     "@graphql-tools/graphql-tag-pluck": "^8.3.23",
     "@modelcontextprotocol/ext-apps": "^1.1.0",
     "@tailwindcss/vite": "^4.1.17",
