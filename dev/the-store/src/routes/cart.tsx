@@ -15,10 +15,11 @@ const UPDATE_CART_ITEM_QUANTITY: TypedDocumentNode<
   UpdateCartItemQuantityMutation,
   UpdateCartItemQuantityMutationVariables
 > = gql`
-  mutation UpdateCartItemQuantity($cartItemId: ID!, $quantity: Int!)
-  @tool(
-    description: "Updates the quantity of a cart item. Setting the quantity to 0 will remove the item from the cart."
-  ) {
+  """
+  Updates the quantity of a cart item. Setting the quantity to 0 will remove the
+  item from the cart.
+  """
+  mutation UpdateCartItemQuantity($cartItemId: ID!, $quantity: Int!) @tool {
     updateCartItemQuantity(id: $cartItemId, quantity: $quantity) {
       id
       quantity
@@ -27,10 +28,8 @@ const UPDATE_CART_ITEM_QUANTITY: TypedDocumentNode<
 `;
 
 const GET_CART: TypedDocumentNode<CartQuery, CartQueryVariables> = gql`
-  query ViewCart
-  @tool(
-    description: "Shows the items currently added to the user's shopping cart."
-  ) {
+  "Shows the items currently added to the user's shopping cart."
+  query ViewCart @tool {
     cart {
       id
       quantity

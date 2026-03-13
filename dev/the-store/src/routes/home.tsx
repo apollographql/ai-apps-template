@@ -11,9 +11,8 @@ const TOP_PRODUCTS: TypedDocumentNode<
   TopProductsQuery,
   TopProductsQueryVariables
 > = gql`
-  query TopProducts
-  @prefetch
-  @tool(description: "Shows the currently highest rated products.") {
+  "Shows the currently highest rated products."
+  query TopProducts @prefetch @tool {
     topProducts {
       id
       ...ProductTile_product
