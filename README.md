@@ -26,9 +26,9 @@ To run the demo, do all the following in separate terminals:
 
 1. `cd` into the `ecommerce-graph` folder and start it with `npm run dev`
 2. `cd` into the `dev/the-store` folder and start it with `npm run dev:e2e`
-3. From the root of this project, run `./start_mcp.sh` to start up the mcp server
+3. From the root of this project, run `./start_mcp.sh` to start up the MCP server
 
-You can run the demo locally in an emulator. Run one of the following commands:
+You can run the demo locally in an emulator. From the `dev/the-store` folder, run one of the following commands:
 
 - `npm run dev:openai` - Run the demo targeting ChatGPT apps
 - `npm run dev:mcp` - Run the demo targeting MCP apps
