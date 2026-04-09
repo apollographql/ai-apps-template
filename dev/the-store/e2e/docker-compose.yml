@@ -22,7 +22,7 @@ services:
       - "8000:8000"
     volumes:
       - ./mcp-config.yml:/mcp-config.yml
-      - ../../../apps:/apps
+      - ../../../apps:/data/apps
       - ../../../schema.graphql:/data/schema.graphql
     command: ["/mcp-config.yml"]
     depends_on:
