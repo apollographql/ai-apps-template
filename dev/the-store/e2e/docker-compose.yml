@@ -1,0 +1,30 @@
+services:
+  graphql:
+    build: ../../../ecommerce-graph
+    ports:
+      - "4000:4000"
+    volumes:
+      - ../../../schema.graphql:/data/schema.graphql
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          'node -e "fetch(''http://localhost:4000'', {method: ''POST'', headers: {''content-type'': ''application/json''}, body: JSON.stringify({query: ''{__typename}''})}).then(r => r.ok ? process.exit(0) : process.exit(1)).catch(() => process.exit(1))"',
+        ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+
+  mcp-server:
+    image: ghcr.io/apollographql/apollo-mcp-server:latest
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./mcp-config.yml:/mcp-config.yml
+      - ../../../apps:/apps
+      - ../../../schema.graphql:/data/schema.graphql
+    command: ["/mcp-config.yml"]
+    depends_on:
+      graphql:
+        condition: service_healthy
