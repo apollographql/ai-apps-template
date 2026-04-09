@@ -7,5 +7,5 @@ test("Smoke", async ({ mcpHost }) => {
   });
   const { appFrame } = await connection.callTool("TopProducts");
 
-  await expect(appFrame.locator("body")).toHaveText("MCP Apps");
+  await expect(appFrame.locator("h1")).toHaveText("Apollo MCP Store");
 });
