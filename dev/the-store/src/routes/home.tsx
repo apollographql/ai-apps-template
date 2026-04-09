@@ -33,7 +33,7 @@ function App() {
   return (
     <>
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-bold">Top Products</h1>
+        <h2 className="text-2xl font-bold">Top Products</h2>
         <Button
           variant="secondary"
           onClick={async () => {
