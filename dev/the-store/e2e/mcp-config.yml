@@ -10,6 +10,9 @@ introspection:
 transport:
   type: streamable_http
   port: 8000
+health_check:
+  enabled: true
+  path: /health
 cors:
   enabled: true
   allow_any_origin: true
