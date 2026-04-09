@@ -12,7 +12,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "format": "prettier --write src vite.config.ts",
-    "codegen": "graphql-codegen --config codegen.ts"
+    "codegen": "graphql-codegen --config codegen.ts",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@apollo/client": "^4.1.6",
