@@ -10,6 +10,7 @@ export default defineConfig({
     },
     {
       command: "docker compose up --build",
+      cwd: "e2e",
       url: "http://localhost:8000/health",
       reuseExistingServer: !process.env.CI,
     },
