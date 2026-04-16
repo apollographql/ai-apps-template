@@ -16,7 +16,7 @@ export default defineConfig({
       reuseExistingServer: !process.env.CI,
     },
   ],
-  workers: process.env.CI ? 1 : undefined,
+  workers: 1,
   use: {
     browserName: "chromium",
   },
