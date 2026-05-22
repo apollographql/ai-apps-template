@@ -2,9 +2,9 @@ import { gql, type TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Link, useParams } from "react-router";
 import type {
+  BrowseProductsQuery,
+  BrowseProductsQueryVariables,
   Category,
-  ProductsQuery,
-  ProductsQueryVariables,
 } from "@/gql/types";
 import { createHydrationUtils, reactive } from "@apollo/client-ai-apps/react";
 import { ProductTile } from "@/components/ProductTile";
@@ -12,7 +12,10 @@ import { SkeletonTile } from "@/components/SkeletonTile";
 import { Button } from "@/components/Button";
 import { ArrowLeft, ArrowRight, ChevronRight } from "lucide-react";
 
-const PRODUCTS: TypedDocumentNode<ProductsQuery, ProductsQueryVariables> = gql`
+const PRODUCTS: TypedDocumentNode<
+  BrowseProductsQuery,
+  BrowseProductsQueryVariables
+> = gql`
   "Shows products in a specific category with sorting and pagination options."
   query BrowseProducts(
     $category: Category!

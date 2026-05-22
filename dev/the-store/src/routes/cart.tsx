@@ -1,8 +1,8 @@
 import type {
-  CartQuery,
-  CartQueryVariables,
   UpdateCartItemQuantityMutation,
   UpdateCartItemQuantityMutationVariables,
+  ViewCartQuery,
+  ViewCartQueryVariables,
 } from "@/gql/types";
 import { gql, NetworkStatus, type TypedDocumentNode } from "@apollo/client";
 import { useApolloClient, useQuery } from "@apollo/client/react";
@@ -27,7 +27,7 @@ const UPDATE_CART_ITEM_QUANTITY: TypedDocumentNode<
   }
 `;
 
-const GET_CART: TypedDocumentNode<CartQuery, CartQueryVariables> = gql`
+const GET_CART: TypedDocumentNode<ViewCartQuery, ViewCartQueryVariables> = gql`
   "Shows the items currently added to the user's shopping cart."
   query ViewCart @tool {
     cart {
