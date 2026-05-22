@@ -202,15 +202,16 @@ export type UpdateCartItemQuantityMutation = {
   } | null;
 };
 
-export type CartQueryVariables = Exact<{ [key: string]: never }>;
+export type ViewCartQueryVariables = Exact<{ [key: string]: never }>;
 
-export type CartQuery = {
+export type ViewCartQuery = {
   cart: Array<{
     __typename: "CartItem";
     id: string;
     quantity: number;
     product: {
       __typename: "Product";
+      id: string;
       price: number;
       thumbnail: string;
       title: string;
@@ -218,7 +219,7 @@ export type CartQuery = {
   }>;
 };
 
-export type ProductsQueryVariables = Exact<{
+export type BrowseProductsQueryVariables = Exact<{
   category: Category;
   sortBy?: InputMaybe<Scalars["String"]["input"]>;
   order?: InputMaybe<Order>;
@@ -226,7 +227,7 @@ export type ProductsQueryVariables = Exact<{
   skip?: InputMaybe<Scalars["Int"]["input"]>;
 }>;
 
-export type ProductsQuery = {
+export type BrowseProductsQuery = {
   products: {
     __typename: "ProductsResult";
     limit: number;
@@ -266,11 +267,11 @@ export type TopProductsQuery = {
   >;
 };
 
-export type ProductQueryVariables = Exact<{
+export type GetProductQueryVariables = Exact<{
   id: Scalars["ID"]["input"];
 }>;
 
-export type ProductQuery = {
+export type GetProductQuery = {
   product: {
     __typename: "Product";
     id: string;
@@ -291,11 +292,11 @@ export type AddToCartMutation = {
   addToCart: { __typename: "CartItem"; id: string };
 };
 
-export type SearchQueryVariables = Exact<{
+export type SearchProductsQueryVariables = Exact<{
   query: Scalars["String"]["input"];
 }>;
 
-export type SearchQuery = {
+export type SearchProductsQuery = {
   search: Array<
     { __typename: "Product"; id: string } & {
       " $fragmentRefs"?: {

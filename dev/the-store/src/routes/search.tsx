@@ -1,4 +1,7 @@
-import type { SearchQuery, SearchQueryVariables } from "@/gql/types";
+import type {
+  SearchProductsQuery,
+  SearchProductsQueryVariables,
+} from "@/gql/types";
 import { gql, type TypedDocumentNode } from "@apollo/client";
 import { createHydrationUtils, reactive } from "@apollo/client-ai-apps/react";
 import { useQuery } from "@apollo/client/react";
@@ -6,7 +9,10 @@ import { useSearchParams } from "react-router";
 import { ProductTile } from "@/components/ProductTile";
 import { SkeletonTile } from "@/components/SkeletonTile";
 
-const SEARCH_QUERY: TypedDocumentNode<SearchQuery, SearchQueryVariables> = gql`
+const SEARCH_QUERY: TypedDocumentNode<
+  SearchProductsQuery,
+  SearchProductsQueryVariables
+> = gql`
   "Searches for products based on a search query."
   query SearchProducts($query: String!) @tool {
     search(query: $query) {

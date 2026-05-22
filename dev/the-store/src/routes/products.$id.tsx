@@ -1,8 +1,8 @@
 import type {
   AddToCartMutation,
   AddToCartMutationVariables,
-  ProductQuery,
-  ProductQueryVariables,
+  GetProductQuery,
+  GetProductQueryVariables,
 } from "@/gql/types";
 import { gql, type TypedDocumentNode } from "@apollo/client";
 import { createHydrationUtils, reactive } from "@apollo/client-ai-apps/react";
@@ -12,7 +12,10 @@ import { useParams, Link, useNavigate } from "react-router";
 import { Rating } from "@/components/Rating";
 import { Button } from "@/components/Button";
 
-const GET_PRODUCT: TypedDocumentNode<ProductQuery, ProductQueryVariables> = gql`
+const GET_PRODUCT: TypedDocumentNode<
+  GetProductQuery,
+  GetProductQueryVariables
+> = gql`
   "Shows the details page for a specific product."
   query GetProduct($id: ID!) @tool {
     product(id: $id) {
