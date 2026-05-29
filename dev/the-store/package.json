@@ -16,7 +16,7 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
-    "@apollo/client": "^4.1.6",
+    "@apollo/client": "^4.2.0",
     "@apollo/client-ai-apps": "^0.7.0",
     "@graphql-tools/graphql-tag-pluck": "^8.3.23",
     "@modelcontextprotocol/ext-apps": "^1.1.0",
